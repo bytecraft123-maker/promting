@@ -3,213 +3,267 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prompt Engineering & LLM Applications Course</title>
+    <title>Prompt Engineering & LLM Applications | Course Portal</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
-                        brand: { 50: '#f0fdf4', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' }
+                        brand: { 50: '#f0fdf4', 500: '#10b981', 600: '#059669', 700: '#047857' }
                     }
                 }
             }
         }
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
-<body class="bg-slate-50 text-slate-800 antialiased font-sans">
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-800 dark:text-slate-200 antialiased font-sans transition-colors duration-200">
 
     <div class="min-h-screen flex flex-col md:flex-row">
         
         <!-- Sidebar Navigation -->
-        <aside class="w-full md:w-80 bg-slate-900 text-slate-300 p-6 md:min-h-screen flex flex-col justify-between border-r border-slate-800 sticky top-0 h-auto md:h-screen overflow-y-auto">
+        <aside class="w-full md:w-80 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 p-6 md:min-h-screen flex flex-col justify-between sticky top-0 h-auto md:h-screen overflow-y-auto z-20">
             <div>
-                <div class="flex items-center space-x-3 mb-8">
-                    <div class="bg-emerald-500 text-slate-950 font-bold p-2.5 rounded-xl text-xl">PE</div>
-                    <div>
-                        <h1 class="text-white font-bold text-lg leading-tight">Prompt Engineering</h1>
-                        <p class="text-xs text-slate-400">Complete Course Notes</p>
+                <!-- Header -->
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center space-x-3">
+                        <div class="bg-gradient-to-tr from-emerald-600 to-teal-400 text-white font-black p-2.5 rounded-xl shadow-md text-xl">
+                            PE
+                        </div>
+                        <div>
+                            <h1 class="text-slate-900 dark:text-white font-bold text-lg leading-tight">Prompt Eng.</h1>
+                            <p class="text-xs text-slate-500 dark:text-slate-400">Interactive Course Hub</p>
+                        </div>
                     </div>
+                    <!-- Theme Toggle -->
+                    <button id="theme-toggle" class="p-2 rounded-lg text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition">
+                        <i class="fa-solid fa-moon dark:hidden"></i>
+                        <i class="fa-solid fa-sun hidden dark:block text-amber-400"></i>
+                    </button>
                 </div>
-                
-                <nav class="space-y-1.5 text-sm">
-                    <a href="#intro" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">01. Introduction</a>
-                    <a href="#understanding" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">02. How LLMs Work</a>
-                    <a href="#chat-models" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">03. Chat Models & Alignment</a>
-                    <a href="#applications" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">04. LLM Applications</a>
-                    <a href="#rag" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">05. Context & RAG</a>
-                    <a href="#laboratory" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">06. Lab Workbook</a>
+
+                <!-- Search Input -->
+                <div class="relative mb-6">
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-xs text-slate-400"></i>
+                    <input type="text" id="search-input" placeholder="Search course topics..." 
+                        class="w-full pl-9 pr-3 py-2 text-sm bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-slate-800 dark:text-slate-200 focus:ring-2 focus:ring-emerald-500 outline-none">
+                </div>
+
+                <!-- Nav Links -->
+                <nav class="space-y-1 text-sm font-medium" id="nav-menu">
+                    <a href="#intro" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                        <i class="fa-solid fa-book-open text-xs w-4"></i>
+                        <span>01. Introduction</span>
+                    </a>
+                    <a href="#understanding" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                        <i class="fa-solid fa-microchip text-xs w-4"></i>
+                        <span>02. How LLMs Work</span>
+                    </a>
+                    <a href="#chat-models" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                        <i class="fa-solid fa-comments text-xs w-4"></i>
+                        <span>03. Chat & Feedback</span>
+                    </a>
+                    <a href="#applications" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                        <i class="fa-solid fa-cubes text-xs w-4"></i>
+                        <span>04. LLM Applications</span>
+                    </a>
+                    <a href="#rag" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                        <i class="fa-solid fa-database text-xs w-4"></i>
+                        <span>05. Context & RAG</span>
+                    </a>
+                    <a href="#laboratory" class="flex items-center space-x-3 px-3.5 py-2.5 rounded-xl text-slate-600 dark:text-slate-400 hover:bg-emerald-50 dark:hover:bg-slate-800 hover:text-emerald-600 dark:hover:text-emerald-400 transition">
+                        <i class="fa-solid fa-vial text-xs w-4"></i>
+                        <span>06. Lab Workbook</span>
+                    </a>
                 </nav>
             </div>
             
-            <div class="mt-8 pt-6 border-t border-slate-800 text-xs text-slate-500">
-                <p>Interactive Course Portal</p>
-                <p class="mt-1">All 6 Modules Included</p>
+            <div class="mt-8 pt-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-400">
+                <p><i class="fa-solid fa-circle-check text-emerald-500 mr-1"></i> All 6 modules verified</p>
             </div>
         </aside>
 
         <!-- Main Content Area -->
-        <main class="flex-1 max-w-4xl px-6 py-10 md:px-12 lg:py-16 space-y-16">
+        <main class="flex-1 max-w-5xl px-6 py-10 md:px-12 lg:py-12 space-y-12">
             
             <!-- 01. Introduction -->
-            <section id="intro" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-6">
-                <div class="border-b border-slate-100 pb-4">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Chapter 01</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Introduction to Prompt Engineering</h2>
+            <section id="intro" class="course-card bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <div>
+                        <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Module 01</span>
+                        <h2 class="text-3xl font-black text-slate-900 dark:text-white mt-2">Introduction to Prompt Engineering</h2>
+                    </div>
                 </div>
                 
-                <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
-                    <strong>Big idea:</strong> A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.
-                </blockquote>
+                <div class="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-slate-800 dark:to-slate-800/50 border-l-4 border-emerald-500 p-5 rounded-r-2xl">
+                    <p class="text-slate-700 dark:text-slate-300 font-medium italic">
+                        <i class="fa-solid fa-quote-left text-emerald-500 mr-2 opacity-50"></i>
+                        A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.
+                    </p>
+                </div>
 
-                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
-                    <h3 class="text-xl font-bold text-slate-800">The Central Question</h3>
-                    <p>Imagine giving a language model the words: <em>"The most important discovery of the experiment was…"</em> The words surrounding the request determine which kind of continuation is likely.</p>
-                    
-                    <h3 class="text-xl font-bold text-slate-800 mt-6">Evolution of Models</h3>
-                    <ul class="list-disc pl-5 space-y-1.5">
-                        <li><strong>1940s onward:</strong> Statistical language models and Markov approaches.</li>
-                        <li><strong>2014:</strong> Sequence-to-sequence (seq2seq) models with encoders and decoders.</li>
-                        <li><strong>2017:</strong> The Transformer architecture introducing attention mechanisms.</li>
-                        <li><strong>2018–Present:</strong> GPT (Generative Pre-trained Transformer) models enabling context-sensitive prompting.</li>
-                    </ul>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div class="space-y-3">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center"><i class="fa-solid fa-timeline text-emerald-500 mr-2"></i> Historical Evolution</h3>
+                        <ul class="space-y-2 text-slate-600 dark:text-slate-400">
+                            <li class="bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-xl"><strong>1940s+:</strong> Statistical models & Markov approaches.</li>
+                            <li class="bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-xl"><strong>2014:</strong> Seq2Seq architecture (Encoder-Decoder).</li>
+                            <li class="bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-xl"><strong>2017:</strong> Transformer Architecture & Attention mechanism.</li>
+                            <li class="bg-slate-50 dark:bg-slate-800/50 p-2.5 rounded-xl"><strong>2018+:</strong> Generative Pre-trained Transformers (GPT).</li>
+                        </ul>
+                    </div>
 
-                    <h3 class="text-xl font-bold text-slate-800 mt-6">Anatomy of a Well-Designed Prompt</h3>
-                    <ol class="list-decimal pl-5 space-y-1">
-                        <li>States the target audience.</li>
-                        <li>Supplies scope and sequence.</li>
-                        <li>Specifies presentation format.</li>
-                        <li>Sets constraints on length and terminology.</li>
-                    </ol>
+                    <div class="space-y-3">
+                        <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center"><i class="fa-solid fa-sliders text-emerald-500 mr-2"></i> Operational Prompt Principles</h3>
+                        <div class="space-y-2">
+                            <div class="border border-slate-200 dark:border-slate-800 p-3 rounded-xl">
+                                <span class="font-bold text-slate-800 dark:text-slate-200">1. Target Audience:</span> Explicitly define who the output is for.
+                            </div>
+                            <div class="border border-slate-200 dark:border-slate-800 p-3 rounded-xl">
+                                <span class="font-bold text-slate-800 dark:text-slate-200">2. Scope & Structure:</span> Define topic bounds and presentation order.
+                            </div>
+                            <div class="border border-slate-200 dark:border-slate-800 p-3 rounded-xl">
+                                <span class="font-bold text-slate-800 dark:text-slate-200">3. Constraints:</span> Set clear limits on length, format, and terminology.
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
             <!-- 02. Understanding LLMs -->
-            <section id="understanding" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-6">
-                <div class="border-b border-slate-100 pb-4">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Chapter 02</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Understanding How Language Models Work</h2>
+            <section id="understanding" class="course-card bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
+                <div class="border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Module 02</span>
+                    <h2 class="text-3xl font-black text-slate-900 dark:text-white mt-2">Understanding How Language Models Work</h2>
                 </div>
-                
-                <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
-                    <strong>Big idea:</strong> To use a language model well, understand what it actually processes: tokens, probability distributions, and context.
-                </blockquote>
 
-                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
-                    <h3 class="text-xl font-bold text-slate-800">Tokens & Context Windows</h3>
-                    <p>Models operate on <strong>token IDs</strong> rather than raw words. Formatting, punctuation, and language choice directly impact token counts and context budgets.</p>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <i class="fa-solid fa-puzzle-piece text-emerald-500 text-xl mb-2"></i>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">Tokenization</h4>
+                        <p class="text-xs text-slate-500 mt-1">Models operate on token IDs, not words. Punctuation & whitespace impact budget.</p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <i class="fa-solid fa-temperature-half text-emerald-500 text-xl mb-2"></i>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">Temperature</h4>
+                        <p class="text-xs text-slate-500 mt-1">Controls softmax output sharpness. Lower values = factual; Higher = creative.</p>
+                    </div>
+                    <div class="bg-slate-50 dark:bg-slate-800/50 p-4 rounded-2xl border border-slate-100 dark:border-slate-800">
+                        <i class="fa-solid fa-triangle-exclamation text-emerald-500 text-xl mb-2"></i>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">Hallucination</h4>
+                        <p class="text-xs text-slate-500 mt-1">Fluent but incorrect predictions. Requires strict grounding & verification.</p>
+                    </div>
+                </div>
 
-                    <h3 class="text-xl font-bold text-slate-800 mt-6">Autoregression & Temperature</h3>
-                    <p>Generation happens one token at a time based on probability scores (logits converted via softmax). <strong>Temperature</strong> controls distribution sharpness:</p>
-                    <ul class="list-disc pl-5 space-y-1.5">
-                        <li><strong>Low Temperature (0.0–0.3):</strong> Predictable and factual outputs.</li>
-                        <li><strong>Medium Temperature (0.5–0.8):</strong> Balanced variation in writing.</li>
-                        <li><strong>High Temperature (0.9+):</strong> Creative variation with higher risk of instability.</li>
-                    </ul>
-
-                    <h3 class="text-xl font-bold text-slate-800 mt-6">Hallucinations</h3>
-                    <p>Occurs when fluent text presents false or fabricated facts, citations, or URLs. Grounding and verification are essential safeguards.</p>
+                <div class="bg-slate-900 text-slate-100 p-5 rounded-2xl font-mono text-xs overflow-x-auto space-y-2">
+                    <div class="text-emerald-400">// Autoregressive Sampling Math Formula</div>
+                    <div>p_i(T) = exp(z_i / T) / Σ exp(z_j / T)</div>
                 </div>
             </section>
 
             <!-- 03. Chat Models -->
-            <section id="chat-models" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-6">
-                <div class="border-b border-slate-100 pb-4">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Chapter 03</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Chat Models, Human Feedback, and Tools</h2>
+            <section id="chat-models" class="course-card bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
+                <div class="border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Module 03</span>
+                    <h2 class="text-3xl font-black text-slate-900 dark:text-white mt-2">Chat Models, Human Feedback & Tools</h2>
                 </div>
-                
-                <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
-                    <strong>Big idea:</strong> A base language model completes text; a chat assistant is trained and structured to follow instructions, interact with roles, and cooperate with tools.
-                </blockquote>
 
-                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
-                    <h3 class="text-xl font-bold text-slate-800">Alignment Pipeline (SFT → RLHF)</h3>
-                    <ul class="list-disc pl-5 space-y-1.5">
-                        <li><strong>Supervised Fine-Tuning (SFT):</strong> Human-written examples teach assistant behavior.</li>
-                        <li><strong>Reward Model:</strong> Learns human preference scoring across candidate responses.</li>
-                        <li><strong>RLHF (PPO):</strong> Optimizes model responses to maximize reward without reward hacking.</li>
-                    </ul>
-
-                    <h3 class="text-xl font-bold text-slate-800 mt-6">Chat Message Roles</h3>
-                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-xs font-semibold">
-                        <div class="bg-slate-100 p-3 rounded-lg">SYSTEM<br><span class="font-normal text-slate-500">High-level rules</span></div>
-                        <div class="bg-slate-100 p-3 rounded-lg">USER<br><span class="font-normal text-slate-500">Prompts & queries</span></div>
-                        <div class="bg-slate-100 p-3 rounded-lg">ASSISTANT<br><span class="font-normal text-slate-500">Model responses</span></div>
-                        <div class="bg-slate-100 p-3 rounded-lg">TOOL<br><span class="font-normal text-slate-500">API execution outputs</span></div>
+                <div class="space-y-4">
+                    <h3 class="text-base font-bold text-slate-900 dark:text-white">Alignment Pipeline Stages</h3>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
+                        <div class="border border-slate-200 dark:border-slate-800 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/30">
+                            <span class="font-bold text-emerald-600">Stage 1: Base Model</span>
+                            <p class="text-slate-500 mt-1">Trained on massive text corpora for next-token prediction.</p>
+                        </div>
+                        <div class="border border-slate-200 dark:border-slate-800 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/30">
+                            <span class="font-bold text-emerald-600">Stage 2: SFT</span>
+                            <p class="text-slate-500 mt-1">Supervised Fine-Tuning with high-quality Q&A pairs.</p>
+                        </div>
+                        <div class="border border-slate-200 dark:border-slate-800 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/30">
+                            <span class="font-bold text-emerald-600">Stage 3: Reward Model</span>
+                            <p class="text-slate-500 mt-1">Learns human preference preferences & scoring.</p>
+                        </div>
+                        <div class="border border-slate-200 dark:border-slate-800 p-3.5 rounded-xl bg-slate-50 dark:bg-slate-800/30">
+                            <span class="font-bold text-emerald-600">Stage 4: RLHF</span>
+                            <p class="text-slate-500 mt-1">PPO optimization for final assistant alignment.</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 04. Designing Applications -->
-            <section id="applications" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-6">
-                <div class="border-b border-slate-100 pb-4">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Chapter 04</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Designing Applications with Language Models</h2>
+            <!-- 04. Applications -->
+            <section id="applications" class="course-card bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
+                <div class="border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Module 04</span>
+                    <h2 class="text-3xl font-black text-slate-900 dark:text-white mt-2">Designing LLM Applications</h2>
                 </div>
-                
-                <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
-                    <strong>Big idea:</strong> The model produces text; the application turns a real-world problem into the right model input and turns the output into a useful result.
-                </blockquote>
 
-                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
-                    <h3 class="text-xl font-bold text-slate-800">Application Pipeline Loop</h3>
-                    <p>User Goal $\rightarrow$ Context Retrieval $\rightarrow$ Prompt Assembly $\rightarrow$ Model Call $\rightarrow$ Validation $\rightarrow$ Action.</p>
-
-                    <h3 class="text-xl font-bold text-slate-800 mt-6">Tool Execution Patterns</h3>
-                    <p>Read-only tools (search/lookup) vs. Write-capable tools (create/edit). Write actions require strict validation and confirmation checks.</p>
+                <div class="flex flex-wrap items-center justify-between gap-2 text-xs font-semibold text-slate-600 dark:text-slate-300 bg-slate-100 dark:bg-slate-800 p-4 rounded-2xl">
+                    <span class="bg-white dark:bg-slate-700 px-3 py-1.5 rounded-lg shadow-sm">User Goal</span>
+                    <i class="fa-solid fa-arrow-right text-slate-400"></i>
+                    <span class="bg-white dark:bg-slate-700 px-3 py-1.5 rounded-lg shadow-sm">Context Retrieval</span>
+                    <i class="fa-solid fa-arrow-right text-slate-400"></i>
+                    <span class="bg-white dark:bg-slate-700 px-3 py-1.5 rounded-lg shadow-sm">Prompt Assembly</span>
+                    <i class="fa-solid fa-arrow-right text-slate-400"></i>
+                    <span class="bg-white dark:bg-slate-700 px-3 py-1.5 rounded-lg shadow-sm">Model Call</span>
+                    <i class="fa-solid fa-arrow-right text-slate-400"></i>
+                    <span class="bg-white dark:bg-slate-700 px-3 py-1.5 rounded-lg shadow-sm">Tool/Action</span>
                 </div>
             </section>
 
             <!-- 05. Context & RAG -->
-            <section id="rag" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-6">
-                <div class="border-b border-slate-100 pb-4">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Chapter 05</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Prompt Content & Retrieval-Augmented Generation (RAG)</h2>
+            <section id="rag" class="course-card bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
+                <div class="border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Module 05</span>
+                    <h2 class="text-3xl font-black text-slate-900 dark:text-white mt-2">Context & Retrieval-Augmented Generation (RAG)</h2>
                 </div>
-                
-                <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
-                    <strong>Big idea:</strong> The quality of an LLM response depends on which information enters the prompt.
-                </blockquote>
 
-                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
-                    <h3 class="text-xl font-bold text-slate-800">RAG System Architecture</h3>
-                    <ol class="list-decimal pl-5 space-y-1.5">
-                        <li><strong>Indexing:</strong> Snippetizing text into manageable chunks and computing vector embeddings.</li>
-                        <li><strong>Retrieval:</strong> Nearest-neighbor search via Cosine Similarity or Lexical/BM25 matching.</li>
-                        <li><strong>Generation:</strong> Constructing grounded answers constrained strictly to retrieved context.</li>
-                    </ol>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm">
+                    <div class="border border-slate-200 dark:border-slate-800 p-5 rounded-2xl">
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-2"><i class="fa-solid fa-magnifying-glass-vector text-emerald-500 mr-2"></i> Retrieval Pipelines</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Includes chunking documents with fixed window/stride, computing embeddings, and running Cosine Similarity search over vector indices (e.g. FAISS).
+                        </p>
+                    </div>
+                    <div class="border border-slate-200 dark:border-slate-800 p-5 rounded-2xl">
+                        <h4 class="font-bold text-slate-900 dark:text-white mb-2"><i class="fa-solid fa-shield-halved text-emerald-500 mr-2"></i> Grounded Generation</h4>
+                        <p class="text-xs text-slate-500 leading-relaxed">
+                            Constrains model answers strictly to retrieved context to eliminate hallucinations and enforce factual traceability.
+                        </p>
+                    </div>
                 </div>
             </section>
 
-            <!-- 06. Lab Workbook -->
-            <section id="laboratory" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-6">
-                <div class="border-b border-slate-100 pb-4">
-                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Chapter 06</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Prompt Engineering Laboratory Workbook</h2>
+            <!-- 06. Laboratory Workbook -->
+            <section id="laboratory" class="course-card bg-white dark:bg-slate-900 rounded-3xl p-8 shadow-sm border border-slate-200 dark:border-slate-800 space-y-6">
+                <div class="border-b border-slate-100 dark:border-slate-800 pb-4">
+                    <span class="text-xs font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/50 px-3 py-1 rounded-full border border-emerald-200 dark:border-emerald-800">Module 06</span>
+                    <h2 class="text-3xl font-black text-slate-900 dark:text-white mt-2">Laboratory Workbook (Labs 1–4)</h2>
                 </div>
-                
-                <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
-                    <strong>Big idea:</strong> Treat prompts as experimental designs: make a prediction, test alternatives, inspect the output, and document what changed.
-                </blockquote>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
-                    <div class="border border-slate-200 p-4 rounded-xl">
-                        <h4 class="font-bold text-slate-800 mb-1">Lab 1 · Reasoning Accuracy</h4>
-                        <p class="text-xs text-slate-600">Zero-shot vs. Few-shot vs. Structured Justification across 8 logical fallacy argument cases (24 runs total).</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                        <div class="text-xs font-bold text-emerald-600 mb-1">LAB 1</div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">Reasoning Accuracy</h4>
+                        <p class="text-xs text-slate-500 mt-1">Zero-shot vs. Few-shot vs. Structured Justification across 8 fallacy cases (24 runs).</p>
                     </div>
-                    <div class="border border-slate-200 p-4 rounded-xl">
-                        <h4 class="font-bold text-slate-800 mb-1">Lab 2 · Prompt Chaining</h4>
-                        <p class="text-xs text-slate-600">Building a 5-stage workflow (Audience $\rightarrow$ Outline $\rightarrow$ Draft $\rightarrow$ Review $\rightarrow$ Layout) for an educational guide.</p>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                        <div class="text-xs font-bold text-emerald-600 mb-1">LAB 2</div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">Prompt Chaining</h4>
+                        <p class="text-xs text-slate-500 mt-1">5-stage educational guide generator pipeline (Audience $\rightarrow$ Outline $\rightarrow$ Layout).</p>
                     </div>
-                    <div class="border border-slate-200 p-4 rounded-xl">
-                        <h4 class="font-bold text-slate-800 mb-1">Lab 3 · Tree of Thought</h4>
-                        <p class="text-xs text-slate-600">Evaluating 3 independent urban traffic strategies across cost, feasibility, speed, and deployment risk.</p>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                        <div class="text-xs font-bold text-emerald-600 mb-1">LAB 3</div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">Tree of Thought</h4>
+                        <p class="text-xs text-slate-500 mt-1">Evaluating 3 distinct 10-year urban traffic strategies across cost and feasibility criteria.</p>
                     </div>
-                    <div class="border border-slate-200 p-4 rounded-xl">
-                        <h4 class="font-bold text-slate-800 mb-1">Lab 4 · Research Workflows</h4>
-                        <p class="text-xs text-slate-600">Generate-Knowledge, Meta-prompting, and ReAct-style evidence cycles applied to AI medical diagnostic models.</p>
+                    <div class="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/40 border border-slate-100 dark:border-slate-800">
+                        <div class="text-xs font-bold text-emerald-600 mb-1">LAB 4</div>
+                        <h4 class="font-bold text-slate-900 dark:text-white text-sm">Advanced Workflows</h4>
+                        <p class="text-xs text-slate-500 mt-1">Generate-Knowledge, Meta-prompting, and ReAct evidence loops for medical AI comparisons.</p>
                     </div>
                 </div>
             </section>
@@ -217,5 +271,25 @@
         </main>
     </div>
 
+    <!-- Scripts for Interactivity -->
+    <script>
+        // Theme Toggle Logic
+        const themeToggle = document.getElementById('theme-toggle');
+        themeToggle.addEventListener('click', () => {
+            document.documentElement.classList.toggle('dark');
+        });
+
+        // Search Filter Logic
+        const searchInput = document.getElementById('search-input');
+        const cards = document.querySelectorAll('.course-card');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            cards.forEach(card => {
+                const text = card.textContent.toLowerCase();
+                card.style.display = text.includes(query) ? 'block' : 'none';
+            });
+        });
+    </script>
 </body>
 </html>
