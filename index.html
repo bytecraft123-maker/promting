@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="neon">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -48,6 +48,27 @@ body{background:#0b1020;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe
 .cx{display:flex;justify-content:space-between;gap:.75rem;align-items:center;padding:.6rem .9rem;border-radius:.75rem;border:1px solid #334155;transition:.3s}
 .cx.in{background:rgba(16,185,129,.12);border-color:#10b981}
 .cx.out{opacity:.45;text-decoration:line-through}
+body,.wrap,.blob{transition:background .3s,filter .3s}
+html[data-theme=mono] body{background:#0a0a0a}
+html[data-theme=mono] .wrap,html[data-theme=mono] .blob{filter:grayscale(1) contrast(1.08)}
+html[data-theme=paper]{color-scheme:light}
+html[data-theme=paper] body{background:#f4f4f4}
+html[data-theme=paper] .wrap{filter:grayscale(1) invert(1)}
+html[data-theme=paper] .blob{filter:grayscale(1);opacity:.07}
+html[data-theme=ocean] body{background:#06121f}
+html[data-theme=ocean] .wrap,html[data-theme=ocean] .blob{filter:hue-rotate(-65deg) saturate(1.1)}
+html[data-theme=sunset] body{background:#16090f}
+html[data-theme=sunset] .wrap,html[data-theme=sunset] .blob{filter:hue-rotate(85deg)}
+html[data-theme=matrix] body{background:#03100a}
+html[data-theme=matrix] .wrap,html[data-theme=matrix] .blob{filter:hue-rotate(-135deg) saturate(1.1)}
+#thm{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:max(16px,env(safe-area-inset-bottom,0px));z-index:90;font:600 14px system-ui,sans-serif}
+#thm>button.fab{background:#111;color:#fff;border:1px solid #888;border-radius:99px;padding:10px 16px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+#thm .pop{display:none;position:absolute;right:0;bottom:52px;background:#111;border:1px solid #666;border-radius:14px;padding:8px;min-width:200px;box-shadow:0 12px 32px rgba(0,0,0,.6)}
+#thm.open .pop{display:block}
+#thm .pop button{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;color:#eee;padding:8px 10px;border-radius:8px;cursor:pointer;text-align:left;font:inherit}
+#thm .pop button:hover,#thm .pop button.on{background:#2a2a2a}
+#thm .sw{width:18px;height:18px;border-radius:50%;border:1px solid #999;flex:none}
+.pgrid textarea:focus,.pgrid input:focus{outline:2px solid #f472b6}
 </style>
 </head>
 <body class="text-slate-100 antialiased min-h-screen selection:bg-purple-500 selection:text-white">
@@ -55,7 +76,7 @@ body{background:#0b1020;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe
 <div class="blob w-96 h-96 bg-pink-600 bottom-0 right-0" style="animation-delay:-5s"></div>
 <div class="blob w-72 h-72 bg-sky-500 top-1/2 left-1/2" style="animation-delay:-9s"></div>
 
-<div class="relative z-10 flex flex-col md:flex-row min-h-screen">
+<div class="wrap relative z-10 flex flex-col md:flex-row min-h-screen">
 <aside class="w-full md:w-80 bg-slate-950/70 border-r border-slate-800/80 p-5 md:p-6 md:sticky md:top-0 md:h-screen overflow-y-auto backdrop-blur-xl z-20 flex md:flex-col justify-between">
  <div class="w-full">
   <div class="flex items-center gap-3 mb-5">
@@ -290,6 +311,56 @@ document.getElementById('cbm').textContent='Used '+u+' of '+B+' tokens. Low-valu
 cb.oninput=cbf;cbf();
 /* checklist */
 var ck=[].slice.call(document.querySelectorAll('.chk'));ck.forEach(function(c){c.onchange=function(){var n=ck.filter(function(x){return x.checked}).length;document.getElementById('chkb').style.width=(n/ck.length*100)+'%';document.getElementById('chkm').textContent=n+' / '+ck.length+' checked'+(n===ck.length?' 🚀 Ready to ship!':'')}});
+/* ===== themes ===== */
+var TH=[["mono","Mono (black & white)","#111","#fff"],["paper","Paper (light)","#f4f4f4","#111"],["neon","Neon (original)","#7c3aed","#ec4899"],["ocean","Ocean","#0ea5e9","#6366f1"],["sunset","Sunset","#f97316","#ec4899"],["matrix","Matrix","#10b981","#84cc16"]],root=document.documentElement,tc=0;
+var box=document.createElement('div');box.id='thm';box.innerHTML='<div class="pop" role="menu"></div><button class="fab" type="button" aria-label="Change theme">🎨 Theme</button>';document.body.appendChild(box);
+var pop=box.querySelector('.pop');
+TH.forEach(function(t,i){var b=document.createElement('button');b.innerHTML='<span class="sw" style="background:linear-gradient(135deg,'+t[2]+' 50%,'+t[3]+' 50%)"></span><span></span>';b.lastChild.textContent=t[1];b.onclick=function(){setT(i);box.classList.remove('open')};pop.appendChild(b)});
+function setT(i){tc=i;root.setAttribute('data-theme',TH[i][0]);[].forEach.call(pop.children,function(b,j){b.classList.toggle('on',j===i)});try{localStorage.setItem('pl-theme2',TH[i][0])}catch(e){}}
+box.querySelector('.fab').onclick=function(){box.classList.toggle('open')};
+document.addEventListener('click',function(e){if(!box.contains(e.target))box.classList.remove('open')});
+var saved=null;try{saved=localStorage.getItem('pl-theme2')}catch(e){}
+var si=TH.findIndex(function(t){return t[0]===saved});setT(si<0?2:si);
+document.addEventListener('keydown',function(e){var tg=(e.target.tagName||'').toLowerCase();if(tg==='input'||tg==='textarea'||e.ctrlKey||e.metaKey||e.altKey)return;
+if(e.key==='t'||e.key==='T')setT((tc+1)%TH.length);
+if(e.key==='ArrowRight')document.getElementById('next').click();if(e.key==='ArrowLeft')document.getElementById('prev').click()});
+
+/* ===== new interactive labs ===== */
+function add(sel,html){var d=document.createElement('div');d.className='pgrid';d.innerHTML=html;document.querySelector(sel).appendChild(d)}
+add('#intro>div','<div class="box mt-6"><h3 class="text-lg font-bold text-white mb-1">🧪 Prompt quality checker</h3><p class="t">Write a prompt and see which of the four requirements it meets (format, information, direction, stopping point).</p><textarea id="pcin" rows="5" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-slate-100" aria-label="Your prompt">Explain transformers.</textarea><ul id="pcl" class="grid sm:grid-cols-2 gap-2 my-3 text-sm"></ul><div class="h-2 bg-slate-800 rounded-full"><div id="pcb" class="bar h-2 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400" style="width:0"></div></div><p id="pcm" class="text-sm font-semibold text-purple-200 mt-2"></p></div>');
+var pci=document.getElementById('pcin'),PC=[["Familiar format",function(t){return /\n|^[-#*]|\d\./m.test(t)&&t.split('\n').length>=3}],["Enough information",function(t){return t.trim().split(/\s+/).length>=25}],["Clear direction",function(t){return /^\s*(#\s*goal\s*)?(explain|create|write|summari[sz]e|list|compare|draft|generate|describe|design|give|suggest|translate)/i.test(t)}],["Controlled stopping point",function(t){return /(under|at most|no more than|max(imum)?|exactly|limit|\b\d+\s*(words|steps|sentences|bullets|items|paragraphs|tables?))/i.test(t)}]];
+function pcf(){var t=pci.value,n=0,l=document.getElementById('pcl');l.innerHTML='';PC.forEach(function(c){var ok=c[1](t);if(ok)n++;var li=document.createElement('li');li.className='cx '+(ok?'in':'');li.textContent=(ok?'✅ ':'⬜ ')+c[0];l.appendChild(li)});document.getElementById('pcb').style.width=(n*25)+'%';document.getElementById('pcm').textContent=['Vague: the model must guess everything.','Getting there: add what is still missing.','Good: nearly operational.','Strong: just one gap left.','🎉 Operational: familiar, informed, directed, and bounded.'][n]}
+pci.oninput=pcf;pcf();
+
+add('#understanding>div','<div class="box mt-6"><h3 class="text-lg font-bold text-white mb-1">🔤 Tokenizer playground</h3><p class="t">Type anything. The chips show an <b>approximate</b> subword split; real tokenizers differ, but the lesson is the same: long or rare words and other languages cost more tokens.</p><textarea id="tkin" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-slate-100" aria-label="Text to tokenize">Unbelievably, tokenization affects pricing in 2026!</textarea><div id="tkout" class="flex flex-wrap gap-1 my-3 font-mono text-sm"></div><p id="tkm" class="text-xs text-slate-400"></p></div>');
+var tki=document.getElementById('tkin');function tkf(){var ms=tki.value.match(/\s?[A-Za-z]+|\s?\d+|\s?[^\sA-Za-z\d]|\s+/g)||[],tk=[];ms.forEach(function(m){var lead=/^\s/.test(m)&&m.trim()?m[0]:'',c=m.trim();if(/^[A-Za-z]{7,}$/.test(c)){c.match(/.{1,4}/g).forEach(function(x,i){tk.push((i?'':lead)+x)})}else if(m.trim())tk.push(m)});
+var o=document.getElementById('tkout');o.innerHTML='';tk.forEach(function(x,i){var s=document.createElement('span');s.style.cssText='white-space:pre;padding:2px 6px;border-radius:6px;color:#0b1020;background:hsl('+(i*47%360)+',85%,72%)';s.textContent=x;o.appendChild(s)});
+var ch=tki.value.length;document.getElementById('tkm').textContent=tk.length+' tokens · '+ch+' characters · ≈ '+(tk.length?(ch/tk.length).toFixed(1):0)+' chars per token'}
+tki.oninput=tkf;tkf();
+
+add('#rag>div','<div class="box mt-6"><h3 class="text-lg font-bold text-white mb-1">🔎 Retrieval playground</h3><p class="t">Search 5 support articles. <b>Lexical</b> mode needs shared words; <b>Semantic</b> mode also matches synonyms (a toy stand-in for embeddings).</p><input id="rq" value="pc is sluggish" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-sm text-slate-100" aria-label="Search query"><div class="flex flex-wrap gap-2 my-3 text-sm"><button class="tb on" data-m="0">Lexical (Jaccard)</button><button class="tb" data-m="1">Semantic (toy)</button><span class="text-slate-500 self-center">Try:</span><button class="tb rqs">pc is sluggish</button><button class="tb rqs">loud fan</button><button class="tb rqs">free up space</button></div><div id="rr" class="space-y-2"></div></div>');
+var RD=["Error 0x80070057: the parameter is incorrect during Windows update","Why does my laptop fan spin loudly after an update?","How to free disk space by removing temporary files","Computer running slowly? Check background processes in Task Manager","Warranty and return policy for laptops"],SW="is the a my after an to how why does during of and or for in on by up".split(' '),GR=[["slow","slowly","sluggish","lag","laggy"],["pc","computer","laptop"],["fan","noise","loud","loudly","noisy"],["update","updates","upgrade"],["disk","storage","space","drive"],["processes","process","tasks","task","background"],["free","removing","remove","clean","delete"]],rm=0;
+function tkz(s){return (s.toLowerCase().match(/[a-z0-9]+/g)||[]).filter(function(w){return SW.indexOf(w)<0}).map(function(w){if(!rm)return w;for(var i=0;i<GR.length;i++)if(GR[i].indexOf(w)>-1)return 'c'+i;return w})}
+function rrf(){var q=new Set(tkz(document.getElementById('rq').value)),res=RD.map(function(d){var s=new Set(tkz(d)),i=0;q.forEach(function(w){if(s.has(w))i++});var u=q.size+s.size-i;return[d,u?i/u:0]}).sort(function(a,b){return b[1]-a[1]}),o=document.getElementById('rr');o.innerHTML='';
+res.forEach(function(r){var d=document.createElement('div');d.className='cx '+(r[1]>0?'in':'out');d.style.textDecoration='none';d.innerHTML='<span class="text-sm"></span><span class="font-mono text-xs text-amber-300 shrink-0"></span>';d.firstChild.textContent=r[0];d.lastChild.textContent=(r[1]*100).toFixed(0)+'%';o.appendChild(d)})}
+document.getElementById('rq').oninput=rrf;
+document.querySelectorAll('[data-m]').forEach(function(b){b.onclick=function(){rm=+b.dataset.m;document.querySelectorAll('[data-m]').forEach(function(x){x.classList.toggle('on',x===b)});rrf()}});
+document.querySelectorAll('.rqs').forEach(function(b){b.onclick=function(){document.getElementById('rq').value=b.textContent;rrf()}});rrf();
+/* ===== flashcards + final quiz ===== */
+function burst(el){var r=el.getBoundingClientRect(),em=['🎉','✨','🚀','⭐','💜'];for(var i=0;i<22;i++){var s=document.createElement('span');s.className='conf';s.textContent=em[i%5];s.style.left=(r.left+r.width/2)+'px';s.style.top=(r.top+r.height/2)+'px';s.style.setProperty('--x',(Math.random()*400-200)+'px');s.style.setProperty('--y',(Math.random()*-300-40)+'px');document.body.appendChild(s);setTimeout(function(n){n.remove()},1500,s)}}
+add('#laboratory>div','<div class="box mt-6"><h3 class="text-lg font-bold text-white mb-1">🃏 Key-term flashcards</h3><p class="t">Click the card to flip it. Say the definition out loud first, then check.</p><button id="fcc" type="button" class="w-full min-h-[150px] rounded-2xl border border-purple-500/40 bg-gradient-to-br from-purple-950/60 to-indigo-950/60 p-6 text-center text-lg font-bold text-white"></button><div class="flex flex-wrap gap-2 items-center"><button class="tn" id="fcp" type="button">‹ Prev</button><button class="tn" id="fcn" type="button">Next ›</button><button class="tn" id="fcs" type="button">🔀 Shuffle</button><span id="fck" class="text-xs text-slate-400 ml-auto mt-2"></span></div></div><div class="box mt-6"><h3 class="text-lg font-bold text-white mb-1">🏆 Final exam</h3><p class="t">Six questions covering all modules.</p><div id="fq"></div></div>');
+var FC=[["Token","A text fragment mapped to an ID. Models read tokens, not words."],["Temperature","Scales how sharp the next-token probability distribution is: low is stable, high is varied."],["Hallucination","Fluent output that is not supported by facts, such as invented citations."],["SFT","Supervised fine-tuning on examples of good assistant responses."],["Reward model","Learns to score outputs from human preference comparisons."],["RLHF","Optimizing a model with a learned human-preference signal."],["PPO","Proximal Policy Optimization, the classical RL method used in RLHF."],["Reward hacking","Chasing the reward score instead of real quality."],["System role","The message role holding high-level instructions and rules."],["ChatML","A markup that separates chat messages by role with boundary tokens."],["Context budget","The limited number of tokens available for the prompt; choose excerpts wisely."],["Boilerplate","Stable text that frames the input: role, structure, reusable constraints."],["RAG","Retrieve relevant excerpts first, then ask the model to answer from them."],["ReAct","Iterating between reasoning about the task and calling external tools."],["Prompt injection","Untrusted content trying to override the instructions. Roles do not make an app immune."]],fi=0,ff=false,fc=document.getElementById('fcc');
+function fcr(){fc.textContent=ff?FC[fi][1]:FC[fi][0];fc.style.fontSize=ff?'1rem':'1.5rem';document.getElementById('fck').textContent=(fi+1)+' / '+FC.length+(ff?' · definition':' · term')}
+fc.onclick=function(){ff=!ff;fcr()};
+document.getElementById('fcn').onclick=function(){fi=(fi+1)%FC.length;ff=false;fcr()};
+document.getElementById('fcp').onclick=function(){fi=(fi+FC.length-1)%FC.length;ff=false;fcr()};
+document.getElementById('fcs').onclick=function(){for(var i=FC.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=FC[i];FC[i]=FC[j];FC[j]=t}fi=0;ff=false;fcr()};fcr();
+var QZ=[["Which component learns to score outputs from human comparisons?",["The tokenizer","The reward model","The stop sequence"],1,"The reward model is trained on preference comparisons and scores outputs."],["Who actually executes an API call in a tool-using app?",["The application","The model","The user"],0,"The model only proposes the call; the application validates and executes it."],["What is reward hacking?",["Stealing a model","Optimizing the reward score instead of real quality","Raising the temperature"],1,"The score keeps climbing while real quality can fall."],["Best temperature range for factual extraction?",["0.0 – 0.3","0.5 – 0.8","0.9 – 1.3"],0,"Low temperature gives stability and lower hallucination risk."],["Do role labels make an app immune to prompt injection?",["Yes, completely","No, retrieved content is still untrusted","Only for tool messages"],1,"Roles help set boundaries but do not replace validation and permission checks."],["Why test the whole pipeline, not just the model call?",["Retrieval or prompt-assembly failures can dominate the result","Models never fail","It is cheaper"],0,"The final answer is only as good as the context the app assembled."]],qi=0,qs=0;
+function qz(){var w=document.getElementById('fq');if(qi>=QZ.length){var all=qs===QZ.length;w.innerHTML='<p class="text-3xl font-black text-white">🏆 '+qs+' / '+QZ.length+'</p><p class="t mt-2">'+(all?'Perfect score. You are ready for the labs!':qs>=4?'Solid. Review the missed topics and try again.':'Good start. Revisit modules 3 and 4, then retry.')+'</p><button class="tn" id="fqr" type="button">↻ Try again</button>';document.getElementById('fqr').onclick=function(){qi=0;qs=0;qz()};if(all)burst(w);return}
+var q=QZ[qi];w.innerHTML='<div class="h-1.5 bg-slate-800 rounded-full mb-3"><div class="bar h-1.5 rounded-full bg-gradient-to-r from-purple-500 to-pink-500" style="width:'+(qi/QZ.length*100)+'%"></div></div><p class="text-xs text-slate-400 mb-1">Question '+(qi+1)+' / '+QZ.length+'</p><p id="fqq" class="text-white font-semibold mb-3"></p><div id="fo" class="grid gap-2"></div><p id="fe" class="t mt-3 min-h-[3rem]"></p><button id="fn" class="tn hidden" type="button">Next ›</button>';
+document.getElementById('fqq').textContent=q[0];var done=false;
+q[1].forEach(function(o,i){var b=document.createElement('button');b.className='opt';b.type='button';b.textContent=o;b.onclick=function(){if(done)return;done=true;var ok=i===q[2];if(ok)qs++;b.style.borderColor=ok?'#10b981':'#f43f5e';b.style.background=ok?'rgba(16,185,129,.2)':'rgba(244,63,94,.2)';if(!ok)document.getElementById('fo').children[q[2]].style.borderColor='#10b981';document.getElementById('fe').textContent=(ok?'✅ Correct. ':'❌ Not quite. ')+q[3];var n=document.getElementById('fn');n.classList.remove('hidden');n.textContent=qi<QZ.length-1?'Next ›':'See score';n.onclick=function(){qi++;qz()}};document.getElementById('fo').appendChild(b)})}
+qz();
 })();
 </script>
 </body>
