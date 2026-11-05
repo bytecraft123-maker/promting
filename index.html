@@ -23,27 +23,29 @@
     <div class="min-h-screen flex flex-col md:flex-row">
         
         <!-- Sidebar Navigation -->
-        <aside class="w-full md:w-72 bg-slate-900 text-slate-300 p-6 md:min-h-screen flex flex-col justify-between border-r border-slate-800">
+        <aside class="w-full md:w-80 bg-slate-900 text-slate-300 p-6 md:min-h-screen flex flex-col justify-between border-r border-slate-800 sticky top-0 h-auto md:h-screen overflow-y-auto">
             <div>
                 <div class="flex items-center space-x-3 mb-8">
-                    <div class="bg-emerald-500 text-slate-950 font-bold p-2 rounded-lg text-xl">PE</div>
+                    <div class="bg-emerald-500 text-slate-950 font-bold p-2.5 rounded-xl text-xl">PE</div>
                     <div>
                         <h1 class="text-white font-bold text-lg leading-tight">Prompt Engineering</h1>
-                        <p class="text-xs text-slate-400">Course Materials & Notes</p>
+                        <p class="text-xs text-slate-400">Complete Course Notes</p>
                     </div>
                 </div>
                 
-                <nav class="space-y-2">
-                    <a href="#intro" class="block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition">01. Introduction</a>
-                    <a href="#understanding" class="block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition">02. How LLMs Work</a>
-                    <a href="#applications" class="block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition">04. LLM Applications</a>
-                    <a href="#rag" class="block px-4 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 hover:text-white transition">05. Context & RAG</a>
+                <nav class="space-y-1.5 text-sm">
+                    <a href="#intro" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">01. Introduction</a>
+                    <a href="#understanding" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">02. How LLMs Work</a>
+                    <a href="#chat-models" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">03. Chat Models & Alignment</a>
+                    <a href="#applications" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">04. LLM Applications</a>
+                    <a href="#rag" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">05. Context & RAG</a>
+                    <a href="#laboratory" class="block px-3.5 py-2 rounded-lg font-medium hover:bg-slate-800 hover:text-white transition">06. Lab Workbook</a>
                 </nav>
             </div>
             
             <div class="mt-8 pt-6 border-t border-slate-800 text-xs text-slate-500">
-                <p>Interactive Course Page</p>
-                <p class="mt-1">Based on provided materials.</p>
+                <p>Interactive Course Portal</p>
+                <p class="mt-1">All 6 Modules Included</p>
             </div>
         </aside>
 
@@ -61,21 +63,20 @@
                     <strong>Big idea:</strong> A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.
                 </blockquote>
 
-                <div class="prose prose-slate max-w-none space-y-4">
+                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
                     <h3 class="text-xl font-bold text-slate-800">The Central Question</h3>
                     <p>Imagine giving a language model the words: <em>"The most important discovery of the experiment was…"</em> The words surrounding the request determine which kind of continuation is likely.</p>
                     
                     <h3 class="text-xl font-bold text-slate-800 mt-6">Evolution of Models</h3>
-                    <ul class="list-disc pl-5 space-y-2 text-slate-600">
+                    <ul class="list-disc pl-5 space-y-1.5">
                         <li><strong>1940s onward:</strong> Statistical language models and Markov approaches.</li>
                         <li><strong>2014:</strong> Sequence-to-sequence (seq2seq) models with encoders and decoders.</li>
                         <li><strong>2017:</strong> The Transformer architecture introducing attention mechanisms.</li>
-                        <li><strong>2018–Present:</strong> GPT (Generative Pre-trained Transformer) models enabling powerful context-sensitive prompting.</li>
+                        <li><strong>2018–Present:</strong> GPT (Generative Pre-trained Transformer) models enabling context-sensitive prompting.</li>
                     </ul>
 
                     <h3 class="text-xl font-bold text-slate-800 mt-6">Anatomy of a Well-Designed Prompt</h3>
-                    <p>A designed prompt does four things better than a vague one:</p>
-                    <ol class="list-decimal pl-5 space-y-1 text-slate-600">
+                    <ol class="list-decimal pl-5 space-y-1">
                         <li>States the target audience.</li>
                         <li>Supplies scope and sequence.</li>
                         <li>Specifies presentation format.</li>
@@ -95,20 +96,49 @@
                     <strong>Big idea:</strong> To use a language model well, understand what it actually processes: tokens, probability distributions, and context.
                 </blockquote>
 
-                <div class="prose prose-slate max-w-none space-y-4">
+                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
                     <h3 class="text-xl font-bold text-slate-800">Tokens & Context Windows</h3>
-                    <p>Models operate on <strong>token IDs</strong> rather than raw human words. Formatting, punctuation, and language choice directly impact token counts and context budget.</p>
+                    <p>Models operate on <strong>token IDs</strong> rather than raw words. Formatting, punctuation, and language choice directly impact token counts and context budgets.</p>
 
                     <h3 class="text-xl font-bold text-slate-800 mt-6">Autoregression & Temperature</h3>
-                    <p>Generation happens one token at a time based on probability scores (logits converted via softmax). <strong>Temperature</strong> controls the sharpness of this distribution:</p>
-                    <ul class="list-disc pl-5 space-y-2 text-slate-600">
-                        <li><strong>Low Temperature (0.0–0.3):</strong> More stable and predictable phrasing.</li>
-                        <li><strong>Medium Temperature (0.5–0.8):</strong> Balanced variation in tone.</li>
+                    <p>Generation happens one token at a time based on probability scores (logits converted via softmax). <strong>Temperature</strong> controls distribution sharpness:</p>
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li><strong>Low Temperature (0.0–0.3):</strong> Predictable and factual outputs.</li>
+                        <li><strong>Medium Temperature (0.5–0.8):</strong> Balanced variation in writing.</li>
                         <li><strong>High Temperature (0.9+):</strong> Creative variation with higher risk of instability.</li>
                     </ul>
 
                     <h3 class="text-xl font-bold text-slate-800 mt-6">Hallucinations</h3>
-                    <p>A hallucination occurs when fluent text presents false, unsupported, or fabricated facts, citations, or URLs. Grounding and verification are essential safeguards.</p>
+                    <p>Occurs when fluent text presents false or fabricated facts, citations, or URLs. Grounding and verification are essential safeguards.</p>
+                </div>
+            </section>
+
+            <!-- 03. Chat Models -->
+            <section id="chat-models" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-6">
+                <div class="border-b border-slate-100 pb-4">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Chapter 03</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Chat Models, Human Feedback, and Tools</h2>
+                </div>
+                
+                <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
+                    <strong>Big idea:</strong> A base language model completes text; a chat assistant is trained and structured to follow instructions, interact with roles, and cooperate with tools.
+                </blockquote>
+
+                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
+                    <h3 class="text-xl font-bold text-slate-800">Alignment Pipeline (SFT → RLHF)</h3>
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li><strong>Supervised Fine-Tuning (SFT):</strong> Human-written examples teach assistant behavior.</li>
+                        <li><strong>Reward Model:</strong> Learns human preference scoring across candidate responses.</li>
+                        <li><strong>RLHF (PPO):</strong> Optimizes model responses to maximize reward without reward hacking.</li>
+                    </ul>
+
+                    <h3 class="text-xl font-bold text-slate-800 mt-6">Chat Message Roles</h3>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-3 text-center text-xs font-semibold">
+                        <div class="bg-slate-100 p-3 rounded-lg">SYSTEM<br><span class="font-normal text-slate-500">High-level rules</span></div>
+                        <div class="bg-slate-100 p-3 rounded-lg">USER<br><span class="font-normal text-slate-500">Prompts & queries</span></div>
+                        <div class="bg-slate-100 p-3 rounded-lg">ASSISTANT<br><span class="font-normal text-slate-500">Model responses</span></div>
+                        <div class="bg-slate-100 p-3 rounded-lg">TOOL<br><span class="font-normal text-slate-500">API execution outputs</span></div>
+                    </div>
                 </div>
             </section>
 
@@ -123,12 +153,12 @@
                     <strong>Big idea:</strong> The model produces text; the application turns a real-world problem into the right model input and turns the output into a useful result.
                 </blockquote>
 
-                <div class="prose prose-slate max-w-none space-y-4">
-                    <h3 class="text-xl font-bold text-slate-800">Think in Loops, Not Isolated Prompts</h3>
-                    <p>An LLM application is a complete transformation loop: user goal $\rightarrow$ context collection $\rightarrow$ prompt assembly $\rightarrow$ model call $\rightarrow$ validation and action.</p>
+                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
+                    <h3 class="text-xl font-bold text-slate-800">Application Pipeline Loop</h3>
+                    <p>User Goal $\rightarrow$ Context Retrieval $\rightarrow$ Prompt Assembly $\rightarrow$ Model Call $\rightarrow$ Validation $\rightarrow$ Action.</p>
 
-                    <h3 class="text-xl font-bold text-slate-800 mt-6">Tools and External Actions</h3>
-                    <p>Applications can provide tools (read-only vs. write-capable) allowing models to retrieve live data, execute queries, or modify external states securely under application validation.</p>
+                    <h3 class="text-xl font-bold text-slate-800 mt-6">Tool Execution Patterns</h3>
+                    <p>Read-only tools (search/lookup) vs. Write-capable tools (create/edit). Write actions require strict validation and confirmation checks.</p>
                 </div>
             </section>
 
@@ -140,20 +170,47 @@
                 </div>
                 
                 <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
-                    <strong>Big idea:</strong> The quality of an LLM response depends not only on the instruction, but also on which information enters the prompt.
+                    <strong>Big idea:</strong> The quality of an LLM response depends on which information enters the prompt.
                 </blockquote>
 
-                <div class="prose prose-slate max-w-none space-y-4">
-                    <h3 class="text-xl font-bold text-slate-800">Static vs. Dynamic Content</h3>
-                    <p><strong>Static content</strong> defines general tasks and constraints, while <strong>dynamic content</strong> brings in case-specific information at runtime.</p>
-
-                    <h3 class="text-xl font-bold text-slate-800 mt-6">Retrieval-Augmented Generation (RAG)</h3>
-                    <p>RAG connects search systems with generative LLMs:</p>
-                    <ol class="list-decimal pl-5 space-y-1 text-slate-600">
-                        <li><strong>Indexing:</strong> Splitting documents into snippets and generating embeddings.</li>
-                        <li><strong>Retrieval:</strong> Finding the most relevant snippets matching a user query (via lexical or neural search).</li>
-                        <li><strong>Generation:</strong> Grounding the model's response strictly within the retrieved context.</li>
+                <div class="prose prose-slate max-w-none space-y-4 text-slate-600">
+                    <h3 class="text-xl font-bold text-slate-800">RAG System Architecture</h3>
+                    <ol class="list-decimal pl-5 space-y-1.5">
+                        <li><strong>Indexing:</strong> Snippetizing text into manageable chunks and computing vector embeddings.</li>
+                        <li><strong>Retrieval:</strong> Nearest-neighbor search via Cosine Similarity or Lexical/BM25 matching.</li>
+                        <li><strong>Generation:</strong> Constructing grounded answers constrained strictly to retrieved context.</li>
                     </ol>
+                </div>
+            </section>
+
+            <!-- 06. Lab Workbook -->
+            <section id="laboratory" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-200 space-y-6">
+                <div class="border-b border-slate-100 pb-4">
+                    <span class="text-xs font-semibold uppercase tracking-wider text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full">Chapter 06</span>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-2">Prompt Engineering Laboratory Workbook</h2>
+                </div>
+                
+                <blockquote class="bg-slate-50 border-l-4 border-emerald-500 p-4 rounded-r-lg text-slate-700 italic">
+                    <strong>Big idea:</strong> Treat prompts as experimental designs: make a prediction, test alternatives, inspect the output, and document what changed.
+                </blockquote>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+                    <div class="border border-slate-200 p-4 rounded-xl">
+                        <h4 class="font-bold text-slate-800 mb-1">Lab 1 · Reasoning Accuracy</h4>
+                        <p class="text-xs text-slate-600">Zero-shot vs. Few-shot vs. Structured Justification across 8 logical fallacy argument cases (24 runs total).</p>
+                    </div>
+                    <div class="border border-slate-200 p-4 rounded-xl">
+                        <h4 class="font-bold text-slate-800 mb-1">Lab 2 · Prompt Chaining</h4>
+                        <p class="text-xs text-slate-600">Building a 5-stage workflow (Audience $\rightarrow$ Outline $\rightarrow$ Draft $\rightarrow$ Review $\rightarrow$ Layout) for an educational guide.</p>
+                    </div>
+                    <div class="border border-slate-200 p-4 rounded-xl">
+                        <h4 class="font-bold text-slate-800 mb-1">Lab 3 · Tree of Thought</h4>
+                        <p class="text-xs text-slate-600">Evaluating 3 independent urban traffic strategies across cost, feasibility, speed, and deployment risk.</p>
+                    </div>
+                    <div class="border border-slate-200 p-4 rounded-xl">
+                        <h4 class="font-bold text-slate-800 mb-1">Lab 4 · Research Workflows</h4>
+                        <p class="text-xs text-slate-600">Generate-Knowledge, Meta-prompting, and ReAct-style evidence cycles applied to AI medical diagnostic models.</p>
+                    </div>
                 </div>
             </section>
 
