@@ -1,474 +1,296 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prompt Engineering & LLM Masterclass | Interactive Hub</title>
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .glass-panel {
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-        }
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(12px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fadeIn {
-            animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: #090d16; }
-        ::-webkit-scrollbar-thumb { background: #1e293b; border-radius: 4px; }
-        ::-webkit-scrollbar-thumb:hover { background: #334155; }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Prompt Engineering & LLM Masterclass</title>
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<style>
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);color-scheme:dark}
+body{background:#0b1020;font-family:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+.blob{position:fixed;border-radius:9999px;filter:blur(90px);opacity:.35;pointer-events:none;z-index:0;animation:float 14s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translate(0,0)}50%{transform:translate(40px,-50px)}}
+@keyframes shine{to{background-position:200% center}}
+.title{background:linear-gradient(90deg,#a78bfa,#f472b6,#38bdf8,#a78bfa);background-size:200% auto;-webkit-background-clip:text;background-clip:text;color:transparent;animation:shine 6s linear infinite}
+@keyframes pop{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.mod{animation:pop .45s ease both}
+.card{transition:transform .25s,border-color .25s,box-shadow .25s}
+.card:hover{transform:translateY(-4px);box-shadow:0 14px 36px -12px var(--g,#8b5cf6)}
+.bar{transition:width .4s ease}
+.conf{position:fixed;font-size:26px;pointer-events:none;z-index:99;animation:fall 1.4s ease-out forwards}
+@keyframes fall{to{transform:translate(var(--x),var(--y)) rotate(540deg);opacity:0}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+:focus-visible{outline:3px solid #f472b6;outline-offset:3px}
+.nav-on{background:linear-gradient(90deg,#7c3aed,#4f46e5);color:#fff;font-weight:700;box-shadow:0 10px 24px -10px #7c3aed}
+
+.h3{font-size:1.5rem;font-weight:800;margin:2.75rem 0 .75rem;color:#fff;letter-spacing:-.01em}
+.t{color:#cbd5e1;font-size:.95rem;line-height:1.7;margin-bottom:.75rem}
+.t code,code{background:#1e293b;color:#f9a8d4;padding:1px 6px;border-radius:6px;font-size:.85em}
+.box{background:rgba(15,23,42,.9);border:1px solid #1e293b;border-radius:1rem;padding:1.25rem}
+.pre{white-space:pre-wrap;font:.8rem/1.6 ui-monospace,Menlo,Consolas,monospace;background:#020617;border:1px solid #1e293b;border-radius:.75rem;padding:1rem;margin-bottom:.75rem;overflow-x:auto}
+.tbs{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:.75rem}
+.tb,.opt{padding:.5rem 1rem;border-radius:.75rem;border:1px solid #334155;background:#0f172a;color:#cbd5e1;font-size:.85rem;font-weight:600;transition:.2s;cursor:pointer;text-align:left}
+.tb:hover,.opt:hover{border-color:#a78bfa;color:#fff}
+.tb.on{background:linear-gradient(90deg,#7c3aed,#db2777);color:#fff;border-color:transparent;box-shadow:0 8px 20px -8px #7c3aed}
+.opt.on{border-color:#f472b6;background:#3b0764;color:#fff}
+.tp{display:none}.tp.on{display:block;animation:pop .35s ease both}
+.tn{margin-top:.5rem;font-size:.8rem;font-weight:700;color:#f9a8d4;border:1px solid #be185d;border-radius:99px;padding:.3rem 1rem;cursor:pointer}
+.tn:hover{background:#be185d;color:#fff}
+.tbl{width:100%;min-width:480px;font-size:.85rem;color:#cbd5e1;border-collapse:collapse;margin-bottom:.75rem}
+.tbl th{text-align:left;color:#a5b4fc;font-size:.72rem;text-transform:uppercase;padding:.6rem .75rem;border-bottom:1px solid #334155}
+.tbl td{padding:.6rem .75rem;border-bottom:1px solid #1e293b;vertical-align:top}
+.dt{background:#0f172a;border:1px solid #1e293b;border-radius:.75rem;padding:.75rem 1rem}
+.dt summary{cursor:pointer;font-weight:700;color:#e2e8f0;font-size:.9rem}
+.dt[open]{border-color:#7c3aed}
+.cbl{display:flex;gap:.6rem;align-items:flex-start;font-size:.88rem;color:#cbd5e1;background:#0f172a;border:1px solid #1e293b;border-radius:.75rem;padding:.55rem .8rem;cursor:pointer}
+.cbl input{accent-color:#ec4899;margin-top:.25rem}
+.who{display:inline-block;font-size:.75rem;font-weight:800;background:#312e81;color:#c7d2fe;border-radius:99px;padding:.2rem .8rem;margin-bottom:.6rem}
+.cx{display:flex;justify-content:space-between;gap:.75rem;align-items:center;padding:.6rem .9rem;border-radius:.75rem;border:1px solid #334155;transition:.3s}
+.cx.in{background:rgba(16,185,129,.12);border-color:#10b981}
+.cx.out{opacity:.45;text-decoration:line-through}
+</style>
 </head>
-<body class="bg-[#07090e] text-slate-100 antialiased font-sans min-h-screen selection:bg-purple-500 selection:text-white">
+<body class="text-slate-100 antialiased min-h-screen selection:bg-purple-500 selection:text-white">
+<div class="blob w-96 h-96 bg-purple-600 -top-24 -left-24"></div>
+<div class="blob w-96 h-96 bg-pink-600 bottom-0 right-0" style="animation-delay:-5s"></div>
+<div class="blob w-72 h-72 bg-sky-500 top-1/2 left-1/2" style="animation-delay:-9s"></div>
 
-    <div class="flex flex-col md:flex-row min-h-screen">
-        
-        <!-- Sidebar Navigation -->
-        <aside class="w-full md:w-80 bg-[#0c0f17]/90 border-r border-slate-800/80 p-6 flex flex-col justify-between sticky top-0 h-auto md:h-screen overflow-y-auto z-20 glass-panel">
-            <div>
-                <!-- Brand Header -->
-                <div class="flex items-center space-x-3 mb-6">
-                    <div class="bg-gradient-to-tr from-purple-600 via-indigo-500 to-pink-500 text-white font-black p-3 rounded-2xl shadow-lg shadow-purple-500/20 text-xl">
-                        ⚡
-                    </div>
-                    <div>
-                        <h1 class="text-white font-black text-lg tracking-wide bg-gradient-to-r from-purple-400 via-pink-400 to-amber-300 bg-clip-text text-transparent">
-                            PromptLab Pro
-                        </h1>
-                        <p class="text-[11px] text-purple-400/90 font-medium">Interactive Learning Platform</p>
-                    </div>
-                </div>
+<div class="relative z-10 flex flex-col md:flex-row min-h-screen">
+<aside class="w-full md:w-80 bg-slate-950/70 border-r border-slate-800/80 p-5 md:p-6 md:sticky md:top-0 md:h-screen overflow-y-auto backdrop-blur-xl z-20 flex md:flex-col justify-between">
+ <div class="w-full">
+  <div class="flex items-center gap-3 mb-5">
+   <div class="bg-gradient-to-tr from-purple-600 via-indigo-500 to-pink-500 p-3 rounded-2xl shadow-lg shadow-purple-500/40 text-xl">🚀</div>
+   <div><h1 class="font-black text-lg title">PromptLab</h1><p class="text-xs text-purple-300/80 font-medium">Interactive Masterclass</p></div>
+  </div>
+  <div class="mb-5 bg-slate-900/80 p-3 rounded-xl border border-slate-800">
+   <div class="flex justify-between text-xs mb-1 text-slate-400 font-medium"><span>Course Progress</span><span id="pp" class="text-purple-300 font-bold">17%</span></div>
+   <div class="w-full bg-slate-800 rounded-full h-2"><div id="pb" class="bar bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400 h-2 rounded-full" style="width:17%"></div></div>
+  </div>
+  <nav class="flex md:block gap-1.5 overflow-x-auto md:overflow-visible space-y-0 md:space-y-1.5 text-sm font-medium" id="nav" aria-label="Modules"></nav>
+ </div>
+ <div class="hidden md:flex mt-6 pt-4 border-t border-slate-800 text-xs text-slate-500 justify-between"><span>⚡ AI Powered</span><span class="bg-purple-500/10 text-purple-300 px-2 py-1 rounded-md border border-purple-500/20">v2.0</span></div>
+</aside>
 
-                <!-- Course Progress Tracker -->
-                <div class="mb-6 bg-slate-900/90 p-4 rounded-2xl border border-slate-800">
-                    <div class="flex justify-between text-xs mb-2 text-slate-400 font-medium">
-                        <span>Learning Journey</span>
-                        <span id="progress-percent" class="text-purple-400 font-bold">16%</span>
-                    </div>
-                    <div class="w-full bg-slate-800 rounded-full h-2.5 overflow-hidden">
-                        <div id="progress-bar" class="bg-gradient-to-r from-purple-500 via-indigo-500 to-pink-500 h-2.5 rounded-full transition-all duration-500" style="width: 16%"></div>
-                    </div>
-                </div>
+<main class="flex-1 max-w-5xl px-5 py-8 md:px-12 lg:py-10">
 
-                <!-- Interactive Module Buttons -->
-                <nav class="space-y-2 text-sm font-medium" id="nav-menu">
-                    <button onclick="showModule('intro', 16)" id="btn-intro" class="nav-btn w-full flex items-center justify-between px-4 py-3 rounded-xl text-white bg-gradient-to-r from-purple-600 to-indigo-600 font-bold shadow-lg shadow-purple-600/25 transition-all duration-300">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-wand-magic-sparkles text-pink-300 w-5"></i>
-                            <span>01. Introduction</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs opacity-70"></i>
-                    </button>
-
-                    <button onclick="showModule('understanding', 33)" id="btn-understanding" class="nav-btn w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-brain text-indigo-400 w-5"></i>
-                            <span>02. How LLMs Work</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs opacity-40"></i>
-                    </button>
-
-                    <button onclick="showModule('chat-models', 50)" id="btn-chat-models" class="nav-btn w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-comments text-cyan-400 w-5"></i>
-                            <span>03. Chat & Alignment</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs opacity-40"></i>
-                    </button>
-
-                    <button onclick="showModule('applications', 66)" id="btn-applications" class="nav-btn w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-cubes-stacked text-emerald-400 w-5"></i>
-                            <span>04. App Architecture</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs opacity-40"></i>
-                    </button>
-
-                    <button onclick="showModule('rag', 83)" id="btn-rag" class="nav-btn w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-database text-amber-400 w-5"></i>
-                            <span>05. Context & RAG</span>
-                        </div>
-                        <i class="fa-solid fa-chevron-right text-xs opacity-40"></i>
-                    </button>
-
-                    <button onclick="showModule('laboratory', 100)" id="btn-laboratory" class="nav-btn w-full flex items-center justify-between px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition-all duration-300">
-                        <div class="flex items-center space-x-3">
-                            <i class="fa-solid fa-flask-vial text-rose-400 w-5"></i>
-                            <span>06. Lab Workbook</span>
-                        </div>
-                        <span class="text-[10px] bg-rose-950 text-rose-300 px-2 py-0.5 rounded-full border border-rose-500/30 font-bold">Lab Tools</span>
-                    </button>
-                </nav>
-            </div>
-            
-            <div class="mt-8 pt-4 border-t border-slate-800 text-xs text-slate-500 flex items-center justify-between">
-                <span><i class="fa-solid fa-shield-halved text-emerald-400 mr-1"></i> Interactive Edition</span>
-                <span class="bg-purple-500/10 text-purple-400 px-2.5 py-1 rounded-md border border-purple-500/20 font-mono">v3.0</span>
-            </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="flex-1 max-w-5xl px-6 py-8 md:px-12 lg:py-10">
-            
-            <!-- MODULE 01: INTRODUCTION -->
-            <section id="intro" class="module-content space-y-8 animate-fadeIn">
-                <div class="bg-slate-900/80 rounded-3xl p-8 border border-slate-800 shadow-2xl relative overflow-hidden backdrop-blur-md">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-                        <span class="text-xs font-black uppercase tracking-widest text-purple-400 bg-purple-950/80 px-3.5 py-1.5 rounded-full border border-purple-500/30">Module 01 · Full Material</span>
-                        <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i> ~15 min read</span>
-                    </div>
-
-                    <h2 class="text-4xl font-black text-white mb-4 leading-tight">01 · Introduction to Prompt Engineering</h2>
-                    
-                    <div class="bg-gradient-to-r from-purple-950/60 via-indigo-950/40 to-transparent border-l-4 border-purple-500 p-6 rounded-r-2xl mb-8">
-                        <p class="text-purple-200 text-base md:text-lg font-medium italic leading-relaxed">
-                            <i class="fa-solid fa-quote-left text-purple-400 mr-2 opacity-50"></i>
-                            A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.
-                        </p>
-                    </div>
-
-                    <div class="space-y-6 text-slate-300 text-sm leading-relaxed">
-                        <div class="bg-slate-950/90 p-6 rounded-2xl border border-slate-800">
-                            <h3 class="text-xl font-bold text-white mb-3 text-purple-400">The Central Question</h3>
-                            <p class="mb-3">
-                                Imagine giving a language model the opening words: <em class="text-pink-300 font-semibold">"The most important discovery of the experiment was…"</em> 
-                                The words surrounding the request determine which kind of continuation is likely. Without prompt engineering, it might write a sci-fi novel, a satire, or a legal summary.
-                            </p>
-                        </div>
-
-                        <!-- 4 Pillars Grid -->
-                        <h3 class="text-lg font-bold text-white">Anatomy of a Well-Designed Prompt</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 hover:border-purple-500/40 transition">
-                                <div class="text-purple-400 font-bold mb-1">1. Target Audience</div>
-                                <p class="text-xs text-slate-400">Explicitly states who the response is for (e.g., a 12-year-old vs. a senior software architect).</p>
-                            </div>
-                            <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 hover:border-purple-500/40 transition">
-                                <div class="text-purple-400 font-bold mb-1">2. Scope & Sequence</div>
-                                <p class="text-xs text-slate-400">Supplies exact bounds on what topics to cover and in what operational order.</p>
-                            </div>
-                            <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 hover:border-purple-500/40 transition">
-                                <div class="text-purple-400 font-bold mb-1">3. Presentation Format</div>
-                                <p class="text-xs text-slate-400">Specifies structured outputs like JSON schemas, Markdown tables, or bullet points.</p>
-                            </div>
-                            <div class="bg-slate-950 p-5 rounded-2xl border border-slate-800 hover:border-purple-500/40 transition">
-                                <div class="text-purple-400 font-bold mb-1">4. Explicit Constraints</div>
-                                <p class="text-xs text-slate-400">Sets strict boundaries on length, forbidden jargon, and hallucination safeguards.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- MODULE 02: HOW LLMS WORK (WITH INTERACTIVE TEMPERATURE SLIDER) -->
-            <section id="understanding" class="module-content hidden space-y-8 animate-fadeIn">
-                <div class="bg-slate-900/80 rounded-3xl p-8 border border-slate-800 shadow-2xl backdrop-blur-md">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-                        <span class="text-xs font-black uppercase tracking-widest text-indigo-400 bg-indigo-950/80 px-3.5 py-1.5 rounded-full border border-indigo-500/30">Module 02 · Interactive Core</span>
-                        <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i> Tokens & Sampling</span>
-                    </div>
-
-                    <h2 class="text-4xl font-black text-white mb-6">02 · How Language Models Work</h2>
-
-                    <!-- Interactive Temperature Simulator Slider (Hocanın En Sevdiği Kısım) -->
-                    <div class="bg-gradient-to-br from-slate-950 via-indigo-950/40 to-slate-950 p-6 rounded-3xl border border-indigo-500/30 shadow-xl mb-8">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-bold text-white flex items-center">
-                                <i class="fa-solid fa-sliders text-indigo-400 mr-2.5"></i> Interactive Temperature Simulator
-                            </h3>
-                            <span id="temp-badge" class="bg-indigo-600 text-white font-mono font-bold text-xs px-3 py-1 rounded-full">T = 0.2 (Deterministic)</span>
-                        </div>
-                        
-                        <p class="text-xs text-slate-300 mb-6">
-                            Drag the slider to see how sampling temperature alters token logits, Softmax probability distribution sharpness, and model creativity in real time!
-                        </p>
-
-                        <div class="space-y-4">
-                            <input type="range" id="temp-slider" min="0" max="1.5" step="0.1" value="0.2" 
-                                class="w-full h-3 bg-slate-800 rounded-lg appearance-none cursor-pointer accent-indigo-500"
-                                oninput="updateTemperatureSim(this.value)">
-
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 pt-2">
-                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
-                                    <div class="text-[11px] text-slate-400 font-bold mb-1">Target Prompt</div>
-                                    <div class="text-xs text-indigo-300 font-mono">"The capital of France is..."</div>
-                                </div>
-                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
-                                    <div class="text-[11px] text-slate-400 font-bold mb-1">Predicted Top Token</div>
-                                    <div id="sim-token" class="text-xs font-bold text-emerald-400 font-mono">"Paris" (98.4% prob)</div>
-                                </div>
-                                <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
-                                    <div class="text-[11px] text-slate-400 font-bold mb-1">Model Output Profile</div>
-                                    <div id="sim-profile" class="text-xs text-slate-300">Factual, precise & repetitive.</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Autoregression & Tokens -->
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-slate-300 text-sm">
-                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                            <h4 class="font-bold text-white text-base mb-2 text-indigo-400"><i class="fa-solid fa-cube mr-2"></i> Tokenization & Budget</h4>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                LLMs process numerical <strong>token IDs</strong> rather than raw characters. Punctuation, trailing spaces, and non-English scripts often require multiple tokens per word, consuming context window capacity rapidly.
-                            </p>
-                        </div>
-                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                            <h4 class="font-bold text-white text-base mb-2 text-pink-400"><i class="fa-solid fa-ghost mr-2"></i> Hallucination Mechanics</h4>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                Hallucinations stem from next-token probability optimization. The model generates fluent, authoritative syntax even when facts or citations do not exist in its weights.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- MODULE 03: CHAT & ALIGNMENT -->
-            <section id="chat-models" class="module-content hidden space-y-8 animate-fadeIn">
-                <div class="bg-slate-900/80 rounded-3xl p-8 border border-slate-800 shadow-2xl backdrop-blur-md">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-                        <span class="text-xs font-black uppercase tracking-widest text-cyan-400 bg-cyan-950/80 px-3.5 py-1.5 rounded-full border border-cyan-500/30">Module 03 · Alignment & Roles</span>
-                        <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i> SFT & RLHF</span>
-                    </div>
-
-                    <h2 class="text-4xl font-black text-white mb-6">03 · Chat Models, Human Feedback & Tools</h2>
-
-                    <!-- Alignment HHH -->
-                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 mb-6 space-y-3">
-                        <h3 class="text-lg font-bold text-cyan-400 flex items-center">
-                            <i class="fa-solid fa-heart-circle-check mr-2"></i> The HHH Alignment Target
-                        </h3>
-                        <p class="text-xs text-slate-300 leading-relaxed">
-                            Base models only continue text. Alignment transforms them into dialogue agents focused on:
-                        </p>
-                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs pt-2">
-                            <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 font-bold text-emerald-400">1. Helpful: Fulfills legit requests.</div>
-                            <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 font-bold text-cyan-400">2. Honest: Expresses uncertainty.</div>
-                            <div class="bg-slate-900 p-3.5 rounded-xl border border-slate-800 font-bold text-rose-400">3. Harmless: Refuses dangerous tasks.</div>
-                        </div>
-                    </div>
-
-                    <!-- Role Simulator Buttons -->
-                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                        <h3 class="text-base font-bold text-white mb-4">Interactive ChatML Role Inspection</h3>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <button onclick="inspectRole('system')" class="bg-purple-900/50 hover:bg-purple-800 text-purple-200 px-4 py-2 rounded-xl text-xs font-bold border border-purple-500/40 transition">Inspect SYSTEM Role</button>
-                            <button onclick="inspectRole('user')" class="bg-indigo-900/50 hover:bg-indigo-800 text-indigo-200 px-4 py-2 rounded-xl text-xs font-bold border border-indigo-500/40 transition">Inspect USER Role</button>
-                            <button onclick="inspectRole('assistant')" class="bg-cyan-900/50 hover:bg-cyan-800 text-cyan-200 px-4 py-2 rounded-xl text-xs font-bold border border-cyan-500/40 transition">Inspect ASSISTANT Role</button>
-                        </div>
-                        <div id="role-display" class="bg-slate-900 p-4 rounded-xl border border-slate-800 font-mono text-xs text-cyan-300">
-                            Click a button above to inspect how structured ChatML messages prevent prompt ambiguity!
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- MODULE 04: APP ARCHITECTURE -->
-            <section id="applications" class="module-content hidden space-y-8 animate-fadeIn">
-                <div class="bg-slate-900/80 rounded-3xl p-8 border border-slate-800 shadow-2xl backdrop-blur-md">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-                        <span class="text-xs font-black uppercase tracking-widest text-emerald-400 bg-emerald-950/80 px-3.5 py-1.5 rounded-full border border-emerald-500/30">Module 04 · App Design</span>
-                        <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i> Feedforward & Tool Loops</span>
-                    </div>
-
-                    <h2 class="text-4xl font-black text-white mb-6">04 · Designing Applications with Language Models</h2>
-
-                    <!-- Feedforward Stages -->
-                    <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800 space-y-4">
-                        <h3 class="text-lg font-bold text-emerald-400">4-Stage Feedforward Pass</h3>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 text-xs">
-                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
-                                <div class="font-bold text-emerald-300 mb-1">1. Context Retrieval</div>
-                                <div class="text-slate-400">Fetch relevant docs, history & APIs.</div>
-                            </div>
-                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
-                                <div class="font-bold text-emerald-300 mb-1">2. Snippetization</div>
-                                <div class="text-slate-400">Chunk materials into clean excerpts.</div>
-                            </div>
-                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
-                                <div class="font-bold text-emerald-300 mb-1">3. Prioritization</div>
-                                <div class="text-slate-400">Rank snippets by relevance within budget.</div>
-                            </div>
-                            <div class="bg-slate-900 p-4 rounded-xl border border-slate-800">
-                                <div class="font-bold text-emerald-300 mb-1">4. Prompt Assembly</div>
-                                <div class="text-slate-400">Combine task rules + context snippets.</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- MODULE 05: CONTEXT & RAG -->
-            <section id="rag" class="module-content hidden space-y-8 animate-fadeIn">
-                <div class="bg-slate-900/80 rounded-3xl p-8 border border-slate-800 shadow-2xl backdrop-blur-md">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-                        <span class="text-xs font-black uppercase tracking-widest text-amber-400 bg-amber-950/80 px-3.5 py-1.5 rounded-full border border-amber-500/30">Module 05 · Retrieval</span>
-                        <span class="text-xs text-slate-400"><i class="fa-regular fa-clock mr-1"></i> Lexical & Vector RAG</span>
-                    </div>
-
-                    <h2 class="text-4xl font-black text-white mb-6">05 · Prompt Content, Context & RAG</h2>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-sm text-slate-300">
-                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                            <h4 class="font-bold text-amber-400 text-base mb-2">Lexical Search (BM25 / Jaccard)</h4>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                Exact keyword matching. Perfect for error codes, specific user IDs, and exact product names. Highly transparent and low latency.
-                            </p>
-                        </div>
-                        <div class="bg-slate-950 p-6 rounded-2xl border border-slate-800">
-                            <h4 class="font-bold text-amber-400 text-base mb-2">Neural Vector Search (Cosine Similarity)</h4>
-                            <p class="text-xs text-slate-400 leading-relaxed">
-                                Converts text into dense vector embeddings. Matches semantic meanings and paraphrases across different words using angle similarity formulas.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- MODULE 06: LAB WORKBOOK (INTERACTIVE FALLACY EXPERIMENT) -->
-            <section id="laboratory" class="module-content hidden space-y-8 animate-fadeIn">
-                <div class="bg-slate-900/80 rounded-3xl p-8 border border-slate-800 shadow-2xl backdrop-blur-md">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-4 mb-6">
-                        <span class="text-xs font-black uppercase tracking-widest text-rose-400 bg-rose-950/80 px-3.5 py-1.5 rounded-full border border-rose-500/30">Module 06 · Interactive Experiments</span>
-                        <span class="text-xs text-slate-400"><i class="fa-solid fa-vial mr-1"></i> Lab 1-4 Suite</span>
-                    </div>
-
-                    <h2 class="text-4xl font-black text-white mb-6">06 · Prompt Engineering Laboratory</h2>
-
-                    <!-- Interactive Lab 1 Tester -->
-                    <div class="bg-slate-950 p-6 rounded-3xl border border-rose-500/30 mb-8">
-                        <div class="flex items-center justify-between mb-4">
-                            <h3 class="text-lg font-bold text-white flex items-center">
-                                <i class="fa-solid fa-flask-vial text-rose-400 mr-2"></i> Lab 1 Fallacy Experiment Simulator
-                            </h3>
-                            <span class="text-xs bg-rose-950 text-rose-300 px-3 py-1 rounded-full font-mono border border-rose-500/30">24 Test Runs</span>
-                        </div>
-                        
-                        <p class="text-xs text-slate-300 mb-4">
-                            Select a prompting strategy and argument case to test how structuring prompts alters logical fallacy classification accuracy:
-                        </p>
-
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 mb-1">Select Strategy</label>
-                                <select id="lab-strat" class="w-full bg-slate-900 border border-slate-800 text-xs text-white p-2.5 rounded-xl outline-none focus:border-rose-500">
-                                    <option value="zero">Strategy A: Zero-Shot Direct</option>
-                                    <option value="few">Strategy B: Few-Shot Labeled</option>
-                                    <option value="cot">Strategy C: Few-Shot + Structured CoT Step</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label class="block text-xs font-bold text-slate-400 mb-1">Select Case Study</label>
-                                <select id="lab-case" class="w-full bg-slate-900 border border-slate-800 text-xs text-white p-2.5 rounded-xl outline-none focus:border-rose-500">
-                                    <option value="A">Case A: Logo change & sales dropped</option>
-                                    <option value="B">Case B: Celebrity endorsed supplement</option>
-                                    <option value="C">Case C: Two rude waiters at restaurant</option>
-                                    <option value="H">Case H: 10,000-person physical activity study</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <button onclick="runLabExperiment()" class="w-full bg-gradient-to-r from-rose-600 to-pink-600 hover:from-rose-500 hover:to-pink-500 text-white text-xs font-bold py-3 rounded-xl shadow-lg shadow-rose-600/25 transition">
-                            <i class="fa-solid fa-play mr-1.5"></i> Run Experiment Iteration
-                        </button>
-
-                        <div id="lab-result" class="mt-4 bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs font-mono text-rose-300 hidden">
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-        </main>
+<!-- 01 -->
+<section id="intro" class="mod space-y-6">
+ <div class="bg-slate-950/60 backdrop-blur rounded-3xl p-6 md:p-8 border border-slate-800 shadow-xl">
+  <div class="flex items-center gap-3 border-b border-slate-800 pb-4 mb-6"><span class="text-xs font-black uppercase tracking-widest text-purple-300 bg-purple-950/80 px-3.5 py-1 rounded-full border border-purple-500/30">Module 01</span><span class="text-xs text-slate-400">🕐 10 min read</span></div>
+  <h2 class="text-4xl md:text-5xl font-black mb-5 leading-tight title">Introduction to Prompt Engineering ✨</h2>
+  <div class="bg-gradient-to-r from-purple-900/50 via-indigo-900/20 to-transparent border-l-4 border-purple-500 p-6 rounded-r-2xl mb-6">
+   <p class="text-purple-100 text-lg font-medium italic leading-relaxed">“ A language model produces a continuation of the information it receives. Prompt engineering is the practice of making that continuation useful, relevant, and reliable.</p>
+  </div>
+  <div class="space-y-5 text-slate-300 leading-relaxed">
+   <div class="card bg-slate-900/80 p-6 rounded-2xl border border-slate-800" style="--g:#8b5cf6">
+    <h3 class="text-xl font-bold mb-3 text-purple-300">🤔 The Central Question &amp; Core Concept</h3>
+    <p class="mb-3">Give a model the opening words <em class="text-pink-300 font-semibold">“The most important discovery of the experiment was…”</em> and many continuations are possible: a technical lab report, a science-fiction novel, or a brief executive summary. <strong class="text-white">The surrounding prompt decides which one you get.</strong></p>
+    <p>Prompt engineering goes far beyond clever phrasing. In real applications it covers context retrieval, conversation state, output constraints, and validation of the results.</p>
+   </div>
+   <div class="grid md:grid-cols-2 gap-4">
+    <div class="rounded-2xl p-5 bg-rose-950/30 border border-rose-500/30"><span class="text-xs font-bold text-rose-300">😵 Vague prompt</span><pre class="mt-2 text-sm font-mono text-rose-200 whitespace-pre-wrap">Explain transformers.</pre></div>
+    <div class="rounded-2xl p-5 bg-emerald-950/30 border border-emerald-500/30">
+     <div class="flex justify-between items-center"><span class="text-xs font-bold text-emerald-300">🎯 Designed prompt</span><button id="cp" class="text-xs text-purple-300 hover:text-white border border-purple-500/40 rounded-full px-3 py-1">📋 Copy Prompt</button></div>
+     <pre id="p1" class="mt-2 text-xs font-mono text-emerald-300 whitespace-pre-wrap">Explain the Transformer neural architecture to 1st-year Computer Science students.
+- Start with the core bottleneck of classical seq2seq models.
+- Introduce attention as a context-weighting mechanism.
+- Include 1 comparative Markdown table and keep length under 300 words.
+- Define technical terms before first use.</pre>
     </div>
+   </div>
+   <div class="grid md:grid-cols-2 gap-4">
+    <div class="card bg-slate-900/60 p-5 rounded-2xl border border-slate-800" style="--g:#8b5cf6"><span class="text-xs text-purple-300 font-bold uppercase tracking-wider">📜 Historical context</span><h4 class="text-lg font-bold text-white mt-1 mb-2">Seq2Seq &amp; Attention Bottlenecks</h4><p class="text-sm text-slate-400">Early RNN/LSTM encoders squeezed long sentences into one fixed-size <em>thought vector</em>. Attention let decoders look back at every input representation with different weights at each step.</p></div>
+    <div class="card bg-slate-900/60 p-5 rounded-2xl border border-slate-800" style="--g:#ec4899"><span class="text-xs text-pink-300 font-bold uppercase tracking-wider">🏗️ Architecture</span><h4 class="text-lg font-bold text-white mt-1 mb-2">What Does GPT Stand For?</h4><p class="text-sm text-slate-400"><strong class="text-slate-200">Generative:</strong> produces new token sequences one token at a time.<br><strong class="text-slate-200">Pre-trained:</strong> learns general structure from huge text corpora.<br><strong class="text-slate-200">Transformer:</strong> multi-head self-attention, no recurrence.</p></div>
+   </div>
+  </div>
+ </div>
+</section>
 
-    <!-- Interactive Scripts -->
-    <script>
-        // Module Switcher with Progress Updates
-        function showModule(moduleId, percent) {
-            document.querySelectorAll('.module-content').forEach(m => m.classList.add('hidden'));
-            const activeModule = document.getElementById(moduleId);
-            if(activeModule) activeModule.classList.remove('hidden');
+<!-- 02 -->
+<section id="understanding" class="mod hidden space-y-6">
+ <div class="bg-slate-950/60 backdrop-blur rounded-3xl p-6 md:p-8 border border-slate-800 shadow-xl">
+  <div class="flex items-center gap-3 mb-6"><span class="text-xs font-black uppercase tracking-widest text-indigo-300 bg-indigo-950/80 px-3.5 py-1 rounded-full border border-indigo-500/30">Module 02</span><span class="text-xs text-slate-400">🕐 17 min read</span></div>
+  <h2 class="text-4xl md:text-5xl font-black mb-6 title">How Language Models Work 🧠</h2>
+  <div class="grid md:grid-cols-3 gap-5 mb-8">
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-indigo-500/30" style="--g:#6366f1"><div class="w-11 h-11 bg-indigo-500/20 text-indigo-300 rounded-xl flex items-center justify-center font-black text-xl mb-3">#</div><h4 class="font-bold text-white mb-1">Tokenization</h4><p class="text-sm text-slate-400">LLMs don’t read words; they read token IDs for text fragments. This affects context budget, price, character-level tasks, and other languages.</p></div>
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-purple-500/30" style="--g:#a855f7"><div class="w-11 h-11 bg-purple-500/20 rounded-xl flex items-center justify-center text-xl mb-3">🌡️</div><h4 class="font-bold text-white mb-1">Temperature &amp; Softmax</h4><p class="text-sm text-slate-400">Logits become probabilities. Temperature sharpens or flattens them: <strong>0.0</strong> is greedy, <strong>1.0+</strong> adds variety.</p></div>
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-pink-500/30" style="--g:#ec4899"><div class="w-11 h-11 bg-pink-500/20 rounded-xl flex items-center justify-center text-xl mb-3">⚠️</div><h4 class="font-bold text-white mb-1">Hallucinations</h4><p class="text-sm text-slate-400">Fluent text isn’t guaranteed true text. Errors range from invented API parameters to believable citations that don’t exist.</p></div>
+  </div>
 
-            document.getElementById('progress-bar').style.width = percent + '%';
-            document.getElementById('progress-percent').textContent = percent + '%';
+  <div class="bg-gradient-to-br from-indigo-950/60 to-purple-950/50 p-6 rounded-2xl border border-purple-500/30 mb-8">
+   <h3 class="text-lg font-bold text-white mb-1">🎛️ Play with temperature</h3>
+   <p class="text-sm text-slate-300 mb-4">Next word for: <em class="text-pink-300">“The most important discovery of the experiment was<span id="gen" class="text-amber-300 font-semibold not-italic"></span>…”</em></p>
+   <div id="cands" class="space-y-2 mb-5"></div>
+   <div class="flex flex-wrap items-center gap-4">
+    <label for="temp" class="text-sm font-mono text-slate-200">🌡️ <b id="tv" class="text-amber-300">0.80</b></label>
+    <input id="temp" type="range" min="0.05" max="2" step="0.05" value="0.8" class="w-56 accent-pink-500">
+    <button id="samp" class="bg-gradient-to-r from-purple-600 to-pink-600 hover:scale-105 transition px-4 py-2 rounded-xl text-sm font-bold">🎲 Sample next token</button>
+    <button id="rst" class="text-sm text-slate-300 border border-slate-700 rounded-xl px-3 py-2 hover:bg-slate-800">Reset</button>
+   </div>
+   <p id="state" class="text-xs text-purple-200 mt-3 font-medium"></p>
+  </div>
 
-            document.querySelectorAll('.nav-btn').forEach(btn => {
-                btn.classList.remove('text-white', 'bg-gradient-to-r', 'from-purple-600', 'to-indigo-600', 'font-bold', 'shadow-lg', 'shadow-purple-600/25');
-                btn.classList.add('text-slate-400');
-            });
+  <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800">
+   <h3 class="text-lg font-bold text-white mb-4">🎚️ Temperature Heuristics Guide</h3>
+   <div class="overflow-x-auto"><table class="w-full min-w-[520px] text-left text-sm text-slate-300">
+    <thead class="bg-slate-950 text-indigo-300 text-xs uppercase font-bold"><tr><th class="p-3">Setting</th><th class="p-3">Use Case</th><th class="p-3">Behavior &amp; Trade-offs</th></tr></thead>
+    <tbody class="divide-y divide-slate-800/60">
+     <tr><td class="p-3 font-mono text-emerald-400">❄️ 0.0 – 0.3</td><td class="p-3">Factual extraction, math, code formatting</td><td class="p-3 text-slate-400">Very stable, repetitive phrasing, lowest hallucination risk.</td></tr>
+     <tr><td class="p-3 font-mono text-yellow-400">🌤️ 0.5 – 0.8</td><td class="p-3">General writing, summaries, Q&amp;A chat</td><td class="p-3 text-slate-400">Natural variation with balanced coherence.</td></tr>
+     <tr><td class="p-3 font-mono text-rose-400">🔥 0.9 – 1.3</td><td class="p-3">Brainstorming, storytelling, poetry</td><td class="p-3 text-slate-400">Wide creative range, higher risk of incoherence.</td></tr>
+    </tbody></table></div>
+  </div>
+ </div>
+</section>
 
-            const activeBtn = document.getElementById('btn-' + moduleId);
-            if(activeBtn) {
-                activeBtn.classList.remove('text-slate-400');
-                activeBtn.classList.add('text-white', 'bg-gradient-to-r', 'from-purple-600', 'to-indigo-600', 'font-bold', 'shadow-lg', 'shadow-purple-600/25');
-            }
-        }
+<section id="chat-models" class="mod hidden space-y-6"><div class="bg-slate-950/60 backdrop-blur rounded-3xl p-6 md:p-8 border border-slate-800 shadow-xl">
+<div class="flex items-center gap-3 mb-6"><span class="text-xs font-black uppercase tracking-widest text-cyan-300 bg-cyan-950/80 px-3.5 py-1 rounded-full border border-cyan-500/30">Module 03</span><span class="text-xs text-slate-400">🕐 15 min read</span></div>
+<h2 class="text-4xl md:text-5xl font-black mb-5 title">Chat Models, Human Feedback &amp; Tools 💬</h2>
+<div class="bg-gradient-to-r from-cyan-900/50 via-indigo-900/20 to-transparent border-l-4 border-cyan-500 p-5 rounded-r-2xl mb-4"><p class="text-slate-100 font-medium leading-relaxed"><b>💡 Big idea:</b> A base model completes text. A <b>chat assistant</b> is a model trained and packaged to join a structured conversation, follow instructions, and cooperate with tools.</p></div>
+<h3 class="h3">🔄 From “continue this text” to “help me with this task”</h3><p class="t">Given <code>What is a good indoor activity for a family of four?</code> a base model might continue it as a questionnaire, a blog post, or a list of more questions. The user wants an <b>answer</b>. Pick a model type to see the difference:</p><div class="tabs"><div class="tbs"><button class="tb on">📄 Base / completion</button><button class="tb">📝 Instruction-tuned</button><button class="tb">💬 Chat model</button></div><div class="tp box on"><pre class="pre text-rose-300">What is a good indoor activity for a family of four?
+What is a good outdoor activity for a family of four?
+What are the best games for a rainy day?
+…</pre><p class="t"><b>Behavior:</b> continues a text sequence.<br><b>Challenge:</b> may continue the <i>document</i> instead of answering the question.</p></div><div class="tp box"><pre class="pre text-amber-300">A board game night, baking together, or a family movie.</pre><p class="t"><b>Behavior:</b> responds to requests in useful formats.<br><b>Challenge:</b> weaker explicit structure for multi-turn dialogue.</p></div><div class="tp box"><pre class="pre text-emerald-300">Here are three ideas: 1) board-game tournament, 2) bake a pizza together, 3) build a blanket fort.
+How old are the kids? I can tailor the suggestions.</pre><p class="t"><b>Behavior:</b> processes role-labeled messages with conversational context.<br><b>Challenge:</b> still needs grounding, careful instructions, and safe tool handling.</p></div></div><div class="box mt-3 text-sm text-slate-300">Chat is not a different mathematical species. The generator still predicts tokens; <b>training and message formatting change which continuation it learns to produce</b>.</div><h3 class="h3">🎯 1. What is alignment trying to do?</h3><p class="t">A web corpus contains excellent explanations, wrong claims, arguments, jokes, and dangerous advice. A base model’s training goal is not a helpful assistant’s goal. Tap each letter of <b>HHH</b>:</p><div class="tabs"><div class="tbs"><button class="tb on">🤝 Helpful</button><button class="tb">🔍 Honest</button><button class="tb">🛡️ Harmless</button></div><div class="tp box on"><p class="t">Respond to legitimate user goals.</p></div><div class="tp box"><p class="t">Avoid unsupported claims and acknowledge uncertainty.</p></div><div class="tp box"><p class="t">Avoid contributing to unnecessary harm.</p></div></div><p class="t">Aligned does not mean pleasant prose. The aim is <b>behavior</b> that suits conversation and decision support.</p><h3 class="h3">🏭 2. The pipeline: SFT → feedback → RLHF</h3><p class="t">Step through the classical reinforcement-learning-from-human-feedback pipeline:</p><div class="tabs"><div class="tbs"><button class="tb on">A · SFT</button><button class="tb">B · Preferences</button><button class="tb">C · Reward model</button><button class="tb">D · RL (PPO)</button></div><div class="tp box on"><p class="t"><b>Supervised fine-tuning.</b> Humans write or pick examples of a good response.</p><pre class="pre text-emerald-300">User: Explain a black hole to a twelve-year-old.
+Assistant: Imagine a place where gravity is so strong that even light cannot escape…</pre><p class="t">The model stops learning <i>any plausible continuation</i> and learns the pattern of a <b>good assistant response</b>.<br>✅ Clearer instruction following. ⚠️ Examples alone do not ensure correctness or judgment everywhere.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t">An SFT model generates several answers to one prompt and people <b>compare</b> them. Comparing is more informative (and easier) than writing a perfect answer every time. Try it in the game below ⬇️</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t">A <b>reward model</b> learns to estimate which outputs humans prefer and assigns scores to guide optimization.</p><p class="t">⚠️ The reward is <b>not</b> an objective test of truth. Preferences can be incomplete, inconsistent, or swayed by presentation style.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t">The instruction-following model is optimized with the learned preference signal. The slides highlight <b>PPO (Proximal Policy Optimization)</b> as the classical method.</p><p class="t">Key risk: <b>reward hacking</b>, optimizing the reward model’s score instead of real quality. Try the slider below ⬇️</p></div></div><h3 class="h3">🗳️ Game: be the human evaluator</h3><div class="box "><p class="t mb-3">One prompt, three candidate answers. Which would you rank first?</p><div class="pg grid gap-2"><button class="opt" data-r="Relevant and accurate, but a little lengthy. A solid answer, though C beats it on clarity and caution.">A · Relevant and accurate, but a little lengthy.</button><button class="opt" data-r="Confident and polished, but contains an invented fact. This is exactly the trap: style can fool raters, which is why rewards ≠ truth.">B · Confident and polished, but contains an invented fact.</button><button class="opt" data-r="✅ Correct, clear, and appropriately cautious. Most evaluators would prefer C, and a reward model trained on many such comparisons learns to score like this.">C · Correct, clear, and appropriately cautious.</button></div><p class="pgr text-sm font-semibold text-purple-200 mt-3 min-h-[2.5rem]"></p></div><h3 class="h3">📉 Slider: reward hacking</h3><div class="box "><p class="t">Push optimization harder and watch the learned reward versus the quality people actually care about.</p><label class="text-sm font-mono text-slate-200">Optimization pressure <b id="rhv" class="text-amber-300">20</b></label><input id="rh" type="range" min="0" max="100" value="20" class="w-full accent-pink-500 my-2" aria-label="Optimization pressure"><div class="space-y-2 text-xs font-mono"><div class="flex items-center gap-2"><span class="w-24">Reward score</span><div class="flex-1 h-4 bg-slate-950 rounded overflow-hidden"><div id="rhr" class="bar h-full bg-pink-500"></div></div></div><div class="flex items-center gap-2"><span class="w-24">Real quality</span><div class="flex-1 h-4 bg-slate-950 rounded overflow-hidden"><div id="rhq" class="bar h-full bg-emerald-400"></div></div></div></div><p id="rhm" class="text-sm font-semibold text-purple-200 mt-3"></p></div><h3 class="h3">📊 Historical scale (a teaching illustration, not a specification)</h3><p class="t">Early InstructGPT-era figures from the slides, drawn on a <b>log scale</b> because the gap is enormous. Current chat models are not necessarily trained like this.</p><div class="box "><div class="flex items-center gap-3 text-xs font-mono mb-2"><span class="w-36 text-slate-200">Base corpus</span><div class="flex-1 h-4 bg-slate-950 rounded overflow-hidden"><div class="h-full bg-purple-500 rounded" style="width:100%"></div></div><span class="w-40 text-right text-slate-400">≈ 499 billion tokens</span></div><div class="flex items-center gap-3 text-xs font-mono mb-2"><span class="w-36 text-slate-200">SFT demonstrations</span><div class="flex-1 h-4 bg-slate-950 rounded overflow-hidden"><div class="h-full bg-indigo-500 rounded" style="width:35%"></div></div><span class="w-40 text-right text-slate-400">≈ 13,000 examples</span></div><div class="flex items-center gap-3 text-xs font-mono mb-2"><span class="w-36 text-slate-200">Reward-model data</span><div class="flex-1 h-4 bg-slate-950 rounded overflow-hidden"><div class="h-full bg-pink-500 rounded" style="width:38.5%"></div></div><span class="w-40 text-right text-slate-400">≈ 33,000 records</span></div><div class="flex items-center gap-3 text-xs font-mono mb-2"><span class="w-36 text-slate-200">RLHF data</span><div class="flex-1 h-4 bg-slate-950 rounded overflow-hidden"><div class="h-full bg-amber-400 rounded" style="width:38%"></div></div><span class="w-40 text-right text-slate-400">≈ 31,000 records</span></div></div><h3 class="h3">⚖️ 3. Benefits and trade-offs of RLHF</h3><p class="t">Gains: better instruction following, appropriate refusals, more calibrated uncertainty. Open each trade-off:</p><div class="grid md:grid-cols-2 gap-3"><details class="dt"><summary>🎭 Preference bias</summary><p class="t mt-2">A small group of annotators can shape the model’s style.</p></details><details class="dt"><summary>🧮 Reward-model limitations</summary><p class="t mt-2">A numerical score may miss subtle factual errors.</p></details><details class="dt"><summary>💸 Alignment tax</summary><p class="t mt-2">Optimizing for assistant-like behavior may weaken some capabilities or flexibility.</p></details><details class="dt"><summary>🚫 No absolute guarantee</summary><p class="t mt-2">Training reduces some problematic behaviors but does not eliminate errors.</p></details></div><p class="t">That is why <b>evaluation</b> stays essential across the application lifecycle.</p><h3 class="h3">🎭 4. Chat messages have roles</h3><p class="t">A conversation is not one long unlabeled text. Roles reduce ambiguity: the model can tell a user request from an earlier reply or a tool result.</p><div class="grid sm:grid-cols-4 gap-3 text-sm mb-4"><div class="card box" style="--g:#a855f7"><b class="text-purple-300">System</b><p class="t">High-level instructions and application behavior.</p></div><div class="card box" style="--g:#6366f1"><b class="text-indigo-300">User</b><p class="t">The person’s request or follow-up.</p></div><div class="card box" style="--g:#06b6d4"><b class="text-cyan-300">Assistant</b><p class="t">Replies, incl. intermediate tool requests.</p></div><div class="card box" style="--g:#10b981"><b class="text-emerald-300">Tool</b><p class="t">Results returned by an external service or function.</p></div></div><div class="tabs"><div class="tbs"><button class="tb on">💬 Chat view</button><button class="tb">🧾 Raw ChatML</button></div><div class="tp box on"><div class="space-y-2 text-sm"><div class="bg-purple-950/50 border border-purple-500/30 rounded-xl p-3"><b class="text-purple-300">system</b> You are a concise study assistant.</div><div class="bg-indigo-950/50 border border-indigo-500/30 rounded-xl p-3"><b class="text-indigo-300">user</b> Explain the difference between RAM and storage.</div><div class="bg-cyan-950/50 border border-cyan-500/30 rounded-xl p-3"><b class="text-cyan-300">assistant</b> RAM holds data needed for active work; storage keeps data longer term.</div></div></div><div class="tp box"><pre class="pre text-emerald-300">&lt;|im_start|&gt;system
+You are a concise study assistant.
+&lt;|im_end|&gt;
+&lt;|im_start|&gt;user
+Explain the difference between RAM and storage.
+&lt;|im_end|&gt;
+&lt;|im_start|&gt;assistant
+RAM holds data needed for active work; storage keeps data longer term.
+&lt;|im_end|&gt;</pre><p class="t">A conceptual illustration. Exact token conventions depend on provider and version. What matters is <b>role separation</b>, not memorizing delimiters.</p></div></div><div class="box mt-3 text-sm text-amber-200 border-amber-500/30">🛡️ <b>Safety note:</b> structured messages help set instruction boundaries but do <b>not</b> make an app immune to prompt injection. Retrieved documents and tool output must still be treated as potentially untrusted.</div><h3 class="h3">⚔️ 5. Completion vs. chat workflows</h3><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Property</th><th>Raw completion</th><th>Chat</th></tr></thead><tbody><tr><td>Main input</td><td>A text prefix</td><td>Role-labeled messages</td></tr><tr><td>Natural behavior</td><td>Continue the text</td><td>Produce an assistant response</td></tr><tr><td>Multi-turn</td><td>Must be designed manually</td><td>Explicit message boundaries</td></tr><tr><td>Style control</td><td>Examples and prompt structure</td><td>Role instructions plus examples</td></tr><tr><td>Ending output</td><td>Often needs a stop condition</td><td>Message-level completion handling</td></tr><tr><td>Main issue</td><td>Making the continuation look right</td><td>Managing context, priorities, trustworthy actions</td></tr></tbody></table></div><p class="t">Chat simplifies many tasks, but <b>it does not remove the need for prompt design</b>.</p><h3 class="h3">🎛️ 6. Parameters behind a chat response</h3><p class="t">Names and availability differ across APIs and models.</p><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Parameter</th><th>Controls / reports</th><th>Why it matters</th></tr></thead><tbody><tr><td><code>max_tokens</code></td><td>Output-length budget</td><td>Prevents unexpectedly long generations</td></tr><tr><td><code>temperature</code></td><td>Sampling randomness</td><td>Controls variation in supported models</td></tr><tr><td><code>stop</code></td><td>Stop sequences</td><td>Useful for bounded text formats</td></tr><tr><td><code>stream</code></td><td>Incremental delivery</td><td>Shows output as it is produced</td></tr><tr><td><code>n</code></td><td>Number of candidates</td><td>Compare alternatives where supported</td></tr><tr><td><code>logprobs</code></td><td>Token log-probabilities</td><td>Examine token-level scores</td></tr><tr><td><code>top_logprobs</code></td><td>Alternative-token scores</td><td>Reveals alternatives at a step</td></tr><tr><td><code>logit_bias</code></td><td>Adjusts selected token scores</td><td>Fine-grained control where exposed</td></tr></tbody></table></div><p class="t">⚠️ Token probabilities are not a calibrated measure of truth, and more candidates cost more compute.</p><h3 class="h3">🛠️ 7. Tools extend the conversation</h3><p class="t">Two interleaved conversations: the <b>visible</b> one (user ↔ assistant) and the <b>application–model</b> one (instructions, retrieved context, tool descriptions, tool results). The model <b>requests</b> an action; the software <b>executes</b> it and returns the result. Step through “When is the next train?”:</p><div class="tabs"><div class="tbs"><button class="tb on">1 · User</button><button class="tb">2 · Model</button><button class="tb">3 · App</button><button class="tb">4 · Tool</button><button class="tb">5 · Model</button></div><div class="tp box on"><span class="who">🧑 User</span><p class="t">“When is the next train?” The model alone has no live timetable.</p><button class="tn">Next ›</button></div><div class="tp box"><span class="who">🤖 Model</span><pre class="pre text-cyan-300">request: timetable_lookup(station="Central")</pre><p class="t">It only <b>proposes</b> the call.</p><button class="tn">Next ›</button></div><div class="tp box"><span class="who">⚙️ Application</span><p class="t">Validates the arguments and <b>executes</b> the API call.</p><button class="tn">Next ›</button></div><div class="tp box"><span class="who">🌐 Tool</span><pre class="pre text-emerald-300">next_departure: 14:32, platform 2</pre><p class="t">Returned as a <code>tool</code> message.</p><button class="tn">Next ›</button></div><div class="tp box"><span class="who">🤖 Model</span><p class="t">“The next train leaves at 14:32 from platform 2.” The answer is grounded in current data.</p></div></div><div class="mt-4"></div><div class="tabs"><div class="tbs"><button class="tb on">👀 Read-only tools</button><button class="tb">✍️ Write-capable tools</button></div><div class="tp box on"><p class="t">Search, retrieve, check. Lower risk.</p></div><div class="tp box"><p class="t">Save, edit, reserve. They need stronger permissions, validation, and <b>user confirmation</b> for consequential actions.</p></div></div><h3 class="h3">🐍 Scenario: a code assistant</h3><p class="t">User: <i>“This code does not work. What is wrong?”</i> The code lives in an attached file. Toggle what the app puts in context:</p><div class="tabs"><div class="tbs"><button class="tb on">Without context</button><button class="tb">With retrieved context</button></div><div class="tp box on"><p class="t"><b>Model:</b> “I can’t see any code. Could you paste it?”</p></div><div class="tp box"><pre class="pre text-slate-200">for i in range(100):
+    print i</pre><p class="t"><b>Model:</b> <code>print i</code> is Python 2 syntax; Python 3 expects <code>print(i)</code>.</p><p class="t"><b>Lesson:</b> the user message alone may not hold everything the model needs. The app assembles the context.</p></div></div><h3 class="h3">✍️ 8. Write a useful chat instruction</h3><p class="t">Tick the ingredients and watch the system prompt (and its testability) grow:</p><div class="box builder" data-base="You are an assistant."><div class="font-bold text-white mb-3">🧪 System-prompt builder</div><div class="grid sm:grid-cols-2 gap-2 mb-4"><label class="cbl"><input type="checkbox" data-l="You are a technical support assistant."> Job</label><label class="cbl"><input type="checkbox" data-l="Your users are beginners."> Audience</label><label class="cbl"><input type="checkbox" data-l="Use the documentation provided in the conversation."> Available information & tools</label><label class="cbl"><input type="checkbox" data-l="If the documentation does not support a claim, say what is unknown."> Missing information</label><label class="cbl"><input type="checkbox" data-l="Provide no more than five numbered troubleshooting steps."> Output format</label><label class="cbl"><input type="checkbox" data-l="Do not claim that you changed any settings unless a tool confirms it."> Tool honesty</label></div><pre class="pre text-emerald-300 out"></pre><div class="h-2 bg-slate-800 rounded-full mt-3"><div class="meter bar h-2 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400" style="width:0"></div></div><p class="msg text-sm font-semibold text-purple-200 mt-2"></p></div><p class="t">This beats “be very intelligent”: it is <b>testable</b> and <b>operational</b>.</p><h3 class="h3">🧭 The shortest useful summary</h3><div class="box "><b class="text-white">Base model → instruction tuning → preference alignment → structured chat → tool-using application.</b></div><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Topic</th><th>Remember this</th></tr></thead><tbody><tr><td>SFT</td><td>Demonstrates what good assistant answers look like.</td></tr><tr><td>RLHF</td><td>Uses preferences to improve assistant behavior.</td></tr><tr><td>Chat roles</td><td>Tell the model who is speaking and what kind of content it reads.</td></tr><tr><td>Tool calls</td><td>The app performs real actions; the model selects and interprets requests and results.</td></tr><tr><td>Safety & reliability</td><td>Training and roles help but do not replace verification or permission checks.</td></tr></tbody></table></div><h3 class="h3">✅ Check your understanding</h3><div class="grid md:grid-cols-2 gap-3"><details class="dt"><summary>1. Why might a base model continue a questionnaire instead of answering?</summary><p class="t mt-2">It predicts the most plausible continuation of the text it sees. A question can look like the start of a list of questions.</p></details><details class="dt"><summary>2. Reward model vs. supervised example?</summary><p class="t mt-2">A supervised example shows one good answer to imitate; a reward model learns to score outputs from human comparisons.</p></details><details class="dt"><summary>3. What does a message role add?</summary><p class="t mt-2">It tells the model who is speaking and whether text is an instruction, request, reply, or tool result.</p></details><details class="dt"><summary>4. Who runs an API call?</summary><p class="t mt-2">The application. The model only proposes the call and interprets the result.</p></details><details class="dt"><summary>5. Why is confident not the same as verified?</summary><p class="t mt-2">Fluency and confidence come from style; verification needs evidence, tools, or checks.</p></details></div></div></section>
+<section id="applications" class="mod hidden space-y-6"><div class="bg-slate-950/60 backdrop-blur rounded-3xl p-6 md:p-8 border border-slate-800 shadow-xl">
+<div class="flex items-center gap-3 mb-6"><span class="text-xs font-black uppercase tracking-widest text-emerald-300 bg-emerald-950/80 px-3.5 py-1 rounded-full border border-emerald-500/30">Module 04</span><span class="text-xs text-slate-400">🕐 17 min read</span></div>
+<h2 class="text-4xl md:text-5xl font-black mb-5 title">Designing Applications with Language Models 🧩</h2>
+<div class="bg-gradient-to-r from-emerald-900/50 via-indigo-900/20 to-transparent border-l-4 border-emerald-500 p-5 rounded-r-2xl mb-4"><p class="text-slate-100 font-medium leading-relaxed"><b>💡 Big idea:</b> The model produces text; the <b>application</b> turns a real-world problem into the right model input and the output into a useful result.</p></div>
+<h3 class="h3">🔁 1. Think in loops, not isolated prompts</h3><p class="t">A prompt is one interaction. An application is a process bridging the <b>user domain</b> (documents, preferences, code, decisions) and the <b>model domain</b> (tokenized input, instructions, context, output). Click through the loop:</p><div class="tabs"><div class="tbs"><button class="tb on">🎯 User goal</button><button class="tb">🧰 Prepare</button><button class="tb">📦 Context + prompt</button><button class="tb">🤖 Model</button><button class="tb">✅ Validate / act</button></div><div class="tp box on"><p class="t">The user states a goal. It is rarely a ready-made prompt.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t">The application understands the request and prepares context.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t">Relevant context and instructions are assembled into one prompt.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t">The language model generates output.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t">The app validates, transforms, or acts on the output, then shows the result. The loop continues with the next interaction.</p></div></div><p class="t">A proofreading assistant may need one pass; a travel assistant needs many steps, external services, and remembered preferences.</p><h3 class="h3">🧮 2. Four dimensions of complexity</h3><div class="tabs"><div class="tbs"><button class="tb on">📝 Proofreading</button><button class="tb">🖥️ IT support</button><button class="tb">✈️ Travel planning</button></div><div class="tp box on"><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Medium</th><th>Abstraction</th><th>Context</th><th>State</th></tr></thead><tbody><tr><td>Typed text</td><td>One bounded task</td><td>Usually the user’s text</td><td>Often independent requests</td></tr></tbody></table></div></div><div class="tp box"><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Medium</th><th>Abstraction</th><th>Context</th><th>State</th></tr></thead><tbody><tr><td>Possibly spoken</td><td>Many possible technical causes</td><td>Documentation, device details, history</td><td>History of attempted fixes</td></tr></tbody></table></div></div><div class="tp box"><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Medium</th><th>Abstraction</th><th>Context</th><th>State</th></tr></thead><tbody><tr><td>Web UI, text, and APIs</td><td>Many competing requirements</td><td>Preferences, dates, budgets, external data</td><td>A plan evolving over many interactions</td></tr></tbody></table></div></div></div><p class="t"><b>Principle:</b> as abstraction, external context, and state grow, the application must do more than forward a message.</p><h3 class="h3">📐 3. Four requirements of an effective prompt</h3><div class="grid sm:grid-cols-2 gap-3"><details class="dt"><summary>1️⃣ A familiar format</summary><p class="t mt-2">Shape the prompt like a recognizable task, document, or dialogue: the <i>Little Red Riding Hood principle</i>. Familiar patterns make the expected continuation easier to infer.</p></details><details class="dt"><summary>2️⃣ Enough relevant information</summary><p class="t mt-2">Supply what is needed to solve the problem without a flood of unrelated details.</p></details><details class="dt"><summary>3️⃣ A clear direction</summary><p class="t mt-2">Say what to accomplish and how the answer should begin or be organized.</p></details><details class="dt"><summary>4️⃣ A controlled stopping point</summary><p class="t mt-2">Define the scope so the model knows when it is finished.</p></details></div><p class="t">Check them separately: perfect formatting can still lack the data needed for an accurate answer. Build “My computer is slow. Help.” into an operational prompt:</p><div class="box builder" data-base="My computer is slow. Help."><div class="font-bold text-white mb-3">🧱 Prompt builder</div><div class="grid sm:grid-cols-2 gap-2 mb-4"><label class="cbl"><input type="checkbox" data-l="# Goal\nCreate a beginner-friendly troubleshooting plan for a slow Windows computer."> Goal (direction)</label><label class="cbl"><input type="checkbox" data-l="# Observations\n- Performance deteriorated over the last few days.\n- Windows 10 is installed; updated one week ago.\n- Browser, document editor, and messaging app are often open.\n- The fan is louder than usual."> Observations (information)</label><label class="cbl"><input type="checkbox" data-l="# Requirements\n- Suggest at most five safe diagnostic steps.\n- Cover CPU load, RAM usage, disk space, and background processes.\n- Briefly explain what each observation could indicate.\n- Do not recommend destructive changes or assume a cause without evidence."> Requirements (stopping point)</label></div><pre class="pre text-emerald-300 out"></pre><div class="h-2 bg-slate-800 rounded-full mt-3"><div class="meter bar h-2 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-amber-400" style="width:0"></div></div><p class="msg text-sm font-semibold text-purple-200 mt-2"></p></div><h3 class="h3">🧪 4. Feedforward: preparing the model’s input</h3><p class="t">Here “feedforward” is the <b>application’s</b> preparation pipeline, not the transformer’s internal feed-forward block.</p><div class="tabs"><div class="tbs"><button class="tb on">1 · Retrieve</button><button class="tb">2 · Snippetize</button><button class="tb">3 · Prioritize</button><button class="tb">4 · Assemble</button></div><div class="tp box on"><p class="t"><b>Context retrieval:</b> collect useful information.<br><i>Example:</i> read the relevant support article.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t"><b>Snippetization:</b> split long material into manageable excerpts.<br><i>Example:</i> extract the paragraph about fan noise.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t"><b>Prioritization:</b> rank pieces by usefulness and relevance.<br><i>Example:</i> device-specific instructions before generic tips.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t"><b>Prompt assembly:</b> combine task, constraints, and context into the final request.</p></div></div><p class="t">Where does context come from?</p><div class="tabs"><div class="tbs"><button class="tb on">👤 Direct</button><button class="tb">🗃️ Indirect</button><button class="tb">🧩 Boilerplate</button></div><div class="tp box on"><p class="t">Supplied by the user, e.g. a document to summarize.</p></div><div class="tp box"><p class="t">From other resources: a knowledge base, an API, or conversation history.</p></div><div class="tp box"><p class="t">Stable text that ties input together: role instructions, required output structure, reusable constraints. It is the <b>frame</b>, not a substitute for evidence.</p></div></div><h3 class="h3">🎒 5. Simulator: managing a finite context budget</h3><p class="t">More context is not always better. Drag the budget and see which excerpts survive when ranked by usefulness. Ranking weighs relevance, priority, freshness, duplication, and cost.</p><div class="box "><label class="text-sm font-mono text-slate-200">Context budget <b id="cbv" class="text-amber-300">1000</b> tokens</label><input id="cb" type="range" min="200" max="2300" step="50" value="1000" class="w-full accent-amber-400 my-2" aria-label="Context budget"><div id="cbl" class="space-y-2 text-sm"></div><p id="cbm" class="text-xs text-slate-400 mt-3"></p></div><p class="t">For long chats, keep recent messages and compress older ones into a structured summary. A compact record of the <b>goal, confirmed facts, decisions made, and open questions</b> often matters more than the whole transcript.</p><h3 class="h3">🧠 6. Choosing a model is an engineering decision</h3><div class="tabs"><div class="tbs"><button class="tb on">⚡ Minimize latency</button><button class="tb">🏆 Improve quality</button><button class="tb">💰 Reduce cost</button><button class="tb">🎯 Narrow workflow</button></div><div class="tp box on"><p class="t">Use a faster model or precompute stable context.</p></div><div class="tp box"><p class="t">Use a more capable model and stronger source grounding.</p></div><div class="tp box"><p class="t">Keep prompts focused; avoid unnecessary repeated calls.</p></div><div class="tp box"><p class="t">Evaluate task-specific tuning or task decomposition.</p></div></div><p class="t">A larger model may help, but <b>poorly selected context can still undermine the result</b>.</p><h3 class="h3">🔧 7. Turning output into something useful</h3><p class="t">Output may be a paragraph, JSON, code, or a proposed tool call. Separate <b>generating a proposal</b> from <b>performing an action</b>.</p><div class="tabs"><div class="tbs"><button class="tb on">📄 Document assistant</button><button class="tb">🖥️ IT assistant</button><button class="tb">📅 Calendar assistant</button><button class="tb">💻 Code assistant</button></div><div class="tp box on"><p class="t">Render a summary with source links.</p></div><div class="tp box"><p class="t">Display safe, ordered troubleshooting steps.</p></div><div class="tp box"><p class="t">Turn a structured request into a <b>validated</b> event proposal.</p></div><div class="tp box"><p class="t">Check generated code with tests before suggesting it.</p></div></div><h3 class="h3">🚀 8. Advanced loops</h3><div class="tabs"><div class="tbs"><button class="tb on">🧵 Stateful</button><button class="tb">📚 RAG</button><button class="tb">🪜 Decomposition</button></div><div class="tp box on"><pre class="pre text-cyan-300">Question 1 → Answer 1
+      ↓
+Question 2 + relevant history → Answer 2
+      ↓
+Question 3 + updated state → Answer 3</pre><p class="t">State can hold summaries, prior tool results, user decisions, and task status. One-shot apps discard it.</p></div><div class="tp box"><pre class="pre text-cyan-300">Question → Retrieve documents → Select excerpts → Ask model → Grounded answer</pre><p class="t">Retrieval can use keyword indexes or semantic vector search; the query may be reformulated. <b>RAG does not guarantee accuracy</b>: wrong document or misread right one still gives a poor answer.</p></div><div class="tp box"><p class="t">Require explicit intermediate outputs: 1) identify constraints, 2) gather evidence, 3) compare alternatives, 4) check against constraints, 5) concise recommendation.</p><p class="t">Steps should be <b>verifiable</b>. A long explanation is not proof of correctness.</p></div></div><h3 class="h3">🌐 9. Tools give access to the outside world</h3><p class="t">A model alone cannot read a live timetable or write to an external server. Tools have defined names, parameters, permissions, and return values.</p><div class="tabs"><div class="tbs"><button class="tb on">1</button><button class="tb">2</button><button class="tb">3</button><button class="tb">4</button><button class="tb">5</button><button class="tb">6</button></div><div class="tp box on"><p class="t"><b>User → App:</b> request involving live information.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t"><b>App → Model:</b> prompt plus available tool definitions.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t"><b>Model → App:</b> a proposed tool request.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t"><b>App → Service:</b> a <b>validated</b> API call.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t"><b>Service → App:</b> the result.</p><button class="tn">Next ›</button></div><div class="tp box"><p class="t"><b>App → Model:</b> tool result plus context. <b>Model → App → User:</b> a useful answer.</p></div></div><div class="mt-4"></div><div class="tabs"><div class="tbs"><button class="tb on">👀 Read-only</button><button class="tb">✍️ Write-capable</button><button class="tb">🔁 ReAct</button></div><div class="tp box on"><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Examples</th></tr></thead><tbody><tr><td>Search documentation</td></tr><tr><td>Retrieve current information</td></tr><tr><td>Check an order’s status</td></tr><tr><td>Look up code examples</td></tr></tbody></table></div></div><div class="tp box"><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Examples</th></tr></thead><tbody><tr><td>Update a document</td></tr><tr><td>Create a calendar event</td></tr><tr><td>Place or modify an order</td></tr><tr><td>Open a pull request</td></tr></tbody></table></div><p class="t">Stricter confirmation, permissions, and checks. The model proposes arguments; the application <b>validates and executes</b>.</p></div><div class="tp box"><pre class="pre text-cyan-300">Identify next question → Call search/lookup → Read result
+        ↑                                      ↓
+        └── Decide whether more evidence is needed</pre><p class="t">ReAct joins reasoning about the task with external action, iteratively. Useful when no single static prompt can hold the answer.</p></div></div><h3 class="h3">📈 10. Evaluate the entire application</h3><p class="t">Good-sounding answers are not enough. Measure utility, reliability, and user outcomes.</p><div class="tabs"><div class="tbs"><button class="tb on">🧪 Offline (before release)</button><button class="tb">📡 Online (real use)</button></div><div class="tp box on"><ul class="t list-disc ml-5"><li>Accuracy against verified answers</li><li>Success of generated code on tests</li><li>Adherence to format and constraints</li><li>Quality of retrieved evidence</li><li>Time and cost per task</li></ul><p class="t">Some tasks grade automatically; others need humans or carefully designed model-assisted grading. <b>Test the whole pipeline</b>: retrieval or assembly failures can dominate.</p></div><div class="tp box"><p class="t">Measure how people actually use the app, with telemetry and meaningful indirect signals.</p><div class="overflow-x-auto"><table class="tbl"><thead><tr><th>Signal</th><th>Possible meaning</th><th>Why it’s tricky</th></tr></thead><tbody><tr><td>Positive/negative rating</td><td>Satisfaction</td><td>Not everyone gives feedback</td></tr><tr><td>Suggested code accepted</td><td>May be useful</td><td>May later be modified or reverted</td></tr><tr><td>Calendar event created</td><td>A concrete outcome happened</td><td>May still need correction</td></tr><tr><td>Very short session</td><td>Task finished fast</td><td>Or user abandoned it</td></tr></tbody></table></div><p class="t">Measure success <b>in the user’s domain</b>, not how elegant the text looks.</p></div></div><h3 class="h3">📋 Release checklist</h3><div class="box "><div class="grid gap-2"><label class="cbl"><input type="checkbox" class="chk"> The user problem and expected outcome are clearly defined.</label><label class="cbl"><input type="checkbox" class="chk"> Necessary context is available and unrelated material is excluded.</label><label class="cbl"><input type="checkbox" class="chk"> Prompt structure and stopping behavior are specified.</label><label class="cbl"><input type="checkbox" class="chk"> The model and workflow fit latency, cost, and quality needs.</label><label class="cbl"><input type="checkbox" class="chk"> Long conversations have an explicit state-management strategy.</label><label class="cbl"><input type="checkbox" class="chk"> Tool calls have validation and appropriate permissions.</label><label class="cbl"><input type="checkbox" class="chk"> Failures can be detected, explained, and recovered from.</label><label class="cbl"><input type="checkbox" class="chk"> Both offline tests and real-world outcome metrics exist.</label></div><div class="h-2 bg-slate-800 rounded-full mt-4"><div id="chkb" class="bar h-2 rounded-full bg-gradient-to-r from-emerald-400 to-sky-400" style="width:0"></div></div><p id="chkm" class="text-sm font-semibold text-emerald-300 mt-2">0 / 8 checked</p></div><h3 class="h3">🏁 Five takeaways</h3><ol class="t list-decimal ml-5 space-y-1"><li>An LLM application is a <b>transformation loop</b>, not just a prompt.</li><li>Context retrieval, selection, and assembly are core responsibilities.</li><li>State, RAG, and tools enable more demanding workflows.</li><li>External actions require additional validation and controls.</li><li>Evaluate <b>successful task completion</b>, not persuasive prose.</li></ol></div></section>
 
-        // Temperature Simulator Function
-        function updateTemperatureSim(val) {
-            const badge = document.getElementById('temp-badge');
-            const token = document.getElementById('sim-token');
-            const profile = document.getElementById('sim-profile');
+<!-- 05 -->
+<section id="rag" class="mod hidden space-y-6">
+ <div class="bg-slate-950/60 backdrop-blur rounded-3xl p-6 md:p-8 border border-slate-800 shadow-xl">
+  <div class="flex items-center gap-3 mb-6"><span class="text-xs font-black uppercase tracking-widest text-amber-300 bg-amber-950/80 px-3.5 py-1 rounded-full border border-amber-500/30">Module 05</span><span class="text-xs text-slate-400">🕐 22 min read</span></div>
+  <h2 class="text-4xl md:text-5xl font-black mb-6 title">Prompt Content &amp; RAG Architecture 🗄️</h2>
+  <div class="grid md:grid-cols-2 gap-6">
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-slate-800" style="--g:#f59e0b"><h4 class="font-bold text-amber-300 text-lg mb-2">🔎 Lexical vs Neural Retrieval</h4><p class="text-sm text-slate-300 leading-relaxed"><strong>Lexical (BM25 / Jaccard):</strong> matches exact keywords and error codes, fast.<br><br><strong>Neural Embeddings (cosine similarity):</strong> place chunks in a vector space so paraphrases with the same meaning still match.</p></div>
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-slate-800" style="--g:#f59e0b"><h4 class="font-bold text-amber-300 text-lg mb-2">✂️ Chunking &amp; Snippetizing</h4><p class="text-sm text-slate-300 leading-relaxed">Split long documents into sliding windows with overlap (e.g. 200 words with an 80-word stride) so context survives across section boundaries.</p></div>
+  </div>
+  <div class="bg-slate-900 p-6 rounded-2xl border border-slate-800 mt-6">
+   <h3 class="font-bold text-white mb-1">🪟 Try the sliding window</h3>
+   <p class="text-xs text-slate-400 mb-3">Window <b class="text-amber-300">200</b> words · stride <b id="sv" class="text-pink-300">80</b> words · overlap <b id="ov" class="text-emerald-300">120</b> words</p>
+   <div class="relative h-10 bg-slate-950 rounded-lg border border-slate-800 overflow-hidden mb-3"><div class="absolute top-0 bottom-0 left-0 rounded bg-purple-500/70 border border-purple-300" style="width:40%"></div><div id="w2" class="bar absolute top-0 bottom-0 rounded bg-amber-400/60 border border-amber-200" style="left:16%;width:40%"></div></div>
+   <input id="stride" type="range" min="20" max="200" step="10" value="80" class="w-56 accent-amber-400" aria-label="Stride">
+  </div>
+ </div>
+</section>
 
-            if(val <= 0.3) {
-                badge.textContent = `T = ${val} (Deterministic)`;
-                badge.className = "bg-emerald-600 text-white font-mono font-bold text-xs px-3 py-1 rounded-full";
-                token.textContent = '"Paris" (98.4% prob)';
-                profile.textContent = "Greedy decoding. Highly consistent, stable and predictable.";
-            } else if(val <= 0.8) {
-                badge.textContent = `T = ${val} (Balanced)`;
-                badge.className = "bg-indigo-600 text-white font-mono font-bold text-xs px-3 py-1 rounded-full";
-                token.textContent = '"Paris" (74.2% prob)';
-                profile.textContent = "Balanced distribution. Natural conversational variation.";
-            } else {
-                badge.textContent = `T = ${val} (High Entropy)`;
-                badge.className = "bg-rose-600 text-white font-mono font-bold text-xs px-3 py-1 rounded-full";
-                token.textContent = '"the capital" (32.1% prob)';
-                profile.textContent = "High entropy sampling. Creative but high hallucination risk.";
-            }
-        }
+<!-- 06 -->
+<section id="laboratory" class="mod hidden space-y-6">
+ <div class="bg-slate-950/60 backdrop-blur rounded-3xl p-6 md:p-8 border border-slate-800 shadow-xl">
+  <div class="flex items-center gap-3 mb-6"><span class="text-xs font-black uppercase tracking-widest text-rose-300 bg-rose-950/80 px-3.5 py-1 rounded-full border border-rose-500/30">Module 06</span><span class="text-xs text-slate-400">🧪 4 Practical Labs</span></div>
+  <h2 class="text-4xl md:text-5xl font-black mb-6 title">Laboratory Workbook &amp; Experiments 🔬</h2>
+  <div class="grid md:grid-cols-2 gap-5 mb-8">
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-rose-500/50" style="--g:#f43f5e"><div class="flex justify-between mb-2"><span class="text-xs font-bold text-rose-300 bg-rose-950/50 px-2 py-0.5 rounded">Lab 1</span><span class="text-[11px] text-slate-500 font-mono">24 Model Runs</span></div><h4 class="font-bold text-white mb-1">🧐 Reasoning &amp; Fallacy Detection</h4><p class="text-sm text-slate-400">Compare zero-shot, few-shot, and structured chain-of-thought across 8 logical argument test cases.</p></div>
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-rose-500/50" style="--g:#f43f5e"><div class="flex justify-between mb-2"><span class="text-xs font-bold text-rose-300 bg-rose-950/50 px-2 py-0.5 rounded">Lab 2</span><span class="text-[11px] text-slate-500 font-mono">5-Stage Pipeline</span></div><h4 class="font-bold text-white mb-1">⛓️ Prompt Chaining Guide</h4><p class="text-sm text-slate-400">Build a multi-pass textbook generator: Audience ➔ Outline ➔ Draft ➔ Critique ➔ Layout.</p></div>
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-rose-500/50" style="--g:#f43f5e"><div class="flex justify-between mb-2"><span class="text-xs font-bold text-rose-300 bg-rose-950/50 px-2 py-0.5 rounded">Lab 3</span><span class="text-[11px] text-slate-500 font-mono">Tree of Thought</span></div><h4 class="font-bold text-white mb-1">🚦 Traffic Strategy Exploration</h4><p class="text-sm text-slate-400">Branch and evaluate 3 urban planning solutions over a 10-year deployment horizon.</p></div>
+   <div class="card bg-slate-900 p-6 rounded-2xl border border-slate-800 hover:border-rose-500/50" style="--g:#f43f5e"><div class="flex justify-between mb-2"><span class="text-xs font-bold text-rose-300 bg-rose-950/50 px-2 py-0.5 rounded">Lab 4</span><span class="text-[11px] text-slate-500 font-mono">ReAct &amp; Meta-Prompt</span></div><h4 class="font-bold text-white mb-1">🩺 Medical AI Diagnostic Research</h4><p class="text-sm text-slate-400">Knowledge generation, reusable meta-prompts, and tool-assisted evidence synthesis.</p></div>
+  </div>
+  <div class="bg-gradient-to-r from-purple-950/60 to-indigo-950/60 p-6 rounded-2xl border border-purple-500/30">
+   <h4 class="font-bold text-white mb-2">🎮 Quick Knowledge Check!</h4>
+   <p class="text-sm text-slate-300 mb-4">Which mechanism stops a causal transformer decoder from looking at future tokens during generation?</p>
+   <div class="flex flex-wrap gap-2 text-sm" id="opts">
+    <button data-ok="0" class="bg-slate-900 hover:bg-slate-800 hover:scale-105 transition px-4 py-2 rounded-xl text-slate-200 border border-slate-700">Softmax Normalization</button>
+    <button data-ok="1" class="bg-slate-900 hover:bg-slate-800 hover:scale-105 transition px-4 py-2 rounded-xl text-slate-200 border border-slate-700">Causal Masking</button>
+    <button data-ok="0" class="bg-slate-900 hover:bg-slate-800 hover:scale-105 transition px-4 py-2 rounded-xl text-slate-200 border border-slate-700">Jaccard Indexing</button>
+   </div>
+   <p id="qres" class="mt-3 text-sm font-bold min-h-[1.5rem]" aria-live="polite"></p>
+  </div>
+ </div>
+</section>
 
-        // Role Inspector
-        function inspectRole(role) {
-            const display = document.getElementById('role-display');
-            if(role === 'system') {
-                display.innerHTML = `<span class="text-purple-400">&lt;|im_start|&gt;system</span><br>You are an expert technical assistant. Answer succinctly in 2 sentences.<br><span class="text-purple-400">&lt;|im_end|&gt;</span>`;
-            } else if(role === 'user') {
-                display.innerHTML = `<span class="text-indigo-400">&lt;|im_start|&gt;user</span><br>What is the difference between RAM and Storage?<br><span class="text-indigo-400">&lt;|im_end|&gt;</span>`;
-            } else {
-                display.innerHTML = `<span class="text-cyan-400">&lt;|im_start|&gt;assistant</span><br>RAM provides fast temporary access for active data, while storage retains data permanently.<br><span class="text-cyan-400">&lt;|im_end|&gt;</span>`;
-            }
-        }
+<div class="flex justify-between mt-6 gap-3">
+ <button id="prev" class="px-5 py-3 rounded-xl border border-slate-700 text-slate-300 hover:bg-slate-800 text-sm font-semibold">← Previous</button>
+ <button id="next" class="px-5 py-3 rounded-xl bg-gradient-to-r from-purple-600 to-pink-600 hover:scale-105 transition text-sm font-bold shadow-lg shadow-purple-600/30">Next module →</button>
+</div>
+</main>
+</div>
 
-        // Lab Experiment Simulator
-        function runLabExperiment() {
-            const strat = document.getElementById('lab-strat').value;
-            const c = document.getElementById('lab-case').value;
-            const res = document.getElementById('lab-result');
-            res.classList.remove('hidden');
+<script>
+(function(){
+var mods=[["intro","🪄","01. Introduction"],["understanding","🧠","02. How LLMs Work"],["chat-models","💬","03. Chat & Feedback"],["applications","🧩","04. LLM Applications"],["rag","🗄️","05. Context & RAG"],["laboratory","🧪","06. Lab Workbook"]],cur=0;
+var nav=document.getElementById('nav');
+mods.forEach(function(m,i){var b=document.createElement('button');b.className='nav-btn shrink-0 md:w-full flex items-center gap-3 px-4 py-3 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800/60 transition whitespace-nowrap';b.innerHTML='<span>'+m[1]+'</span><span></span>';b.lastChild.textContent=m[2];b.onclick=function(){go(i)};nav.appendChild(b)});
+function go(i){cur=Math.max(0,Math.min(mods.length-1,i));
+mods.forEach(function(m,j){var s=document.getElementById(m[0]);s.classList.toggle('hidden',j!==cur);nav.children[j].classList.toggle('nav-on',j===cur);nav.children[j].classList.toggle('text-slate-400',j!==cur)});
+var p=Math.round((cur+1)/mods.length*100);document.getElementById('pb').style.width=p+'%';document.getElementById('pp').textContent=p+'%';
+document.getElementById('prev').style.visibility=cur?'visible':'hidden';document.getElementById('next').style.visibility=cur<mods.length-1?'visible':'hidden';
+window.scrollTo({top:0,behavior:'smooth'});if(location.hash!=='#'+mods[cur][0])history.replaceState(null,'','#'+mods[cur][0])}
+document.getElementById('prev').onclick=function(){go(cur-1)};document.getElementById('next').onclick=function(){go(cur+1)};
+var h=location.hash.slice(1),hi=mods.findIndex(function(m){return m[0]===h});go(hi>=0?hi:0);
 
-            let label = "";
-            if(c === 'A') label = "False Cause (Post hoc)";
-            else if(c === 'B') label = "Appeal to Authority";
-            else if(c === 'C') label = "Hasty Generalization";
-            else label = "No Clear Fallacy (Sound Study Citation)";
+/* temperature demo */
+var cands=[["that",2.6],["the",2.2],["a",1.8],["how",1.4],["unexpected",.9],["purple",-.6]],cols=["#f472b6","#a78bfa","#818cf8","#38bdf8","#34d399","#fbbf24"],list=document.getElementById('cands'),rows=[],probs=[];
+cands.forEach(function(c,i){var r=document.createElement('div');r.className='flex items-center gap-3 text-xs font-mono';r.innerHTML='<span class="w-24 text-slate-200"></span><div class="flex-1 h-5 bg-slate-950 rounded overflow-hidden"><div class="bar h-full rounded" style="width:0;background:'+cols[i]+'"></div></div><span class="w-12 text-right text-slate-400"></span>';r.firstChild.textContent=c[0];list.appendChild(r);rows.push(r)});
+var temp=document.getElementById('temp');
+function render(){var t=parseFloat(temp.value),m=Math.max.apply(null,cands.map(function(c){return c[1]/t})),e=cands.map(function(c){return Math.exp(c[1]/t-m)}),s=e.reduce(function(a,b){return a+b},0);probs=e.map(function(x){return x/s});
+document.getElementById('tv').textContent=t.toFixed(2);
+probs.forEach(function(p,i){rows[i].children[1].firstChild.style.width=(p*100)+'%';rows[i].lastChild.textContent=(p*100).toFixed(p<.1?1:0)+'%'});
+document.getElementById('state').textContent=t<=.3?'❄️ Near-greedy: the top token wins almost every time.':t<=1?'🌤️ Balanced: likely tokens dominate, others get a chance.':'🔥 Flat: unlikely tokens become realistic picks. Hello, “purple”!'}
+temp.oninput=render;render();
+var gen=document.getElementById('gen');
+document.getElementById('samp').onclick=function(){var r=Math.random(),a=0,k=probs.length-1;for(var i=0;i<probs.length;i++){a+=probs[i];if(r<a){k=i;break}}gen.textContent+=' '+cands[k][0]};
+document.getElementById('rst').onclick=function(){gen.textContent=''};
 
-            if(strat === 'zero') {
-                res.innerHTML = `<strong>Output:</strong> Label: [${label}]<br><strong>Accuracy:</strong> Moderate. High sensitivity to prompt formatting.`;
-            } else if(strat === 'few') {
-                res.innerHTML = `<strong>Output:</strong> Label: [${label}]<br><strong>Reason:</strong> Demonstrations anchored formatting perfectly.<br><strong>Accuracy:</strong> High.`;
-            } else {
-                res.innerHTML = `<strong>Output:</strong> Label: [${label}]<br><strong>CoT Step:</strong> Extracted main claim ➔ Checked inferential jump ➔ Assigned label.<br><strong>Accuracy:</strong> Highest (100% verified alignment).`;
-            }
-        }
-    </script>
+/* flow steps */
+var info=["You state what you want done. A good prompt starts from a clear goal.","The app gathers documents, history, and data the model needs.","Candidate snippets are scored and only the best fit the context window.","The prompt is assembled and sent to the model.","The output is checked against rules and, if valid, turned into an action."];
+document.querySelectorAll('.fs').forEach(function(b,i){b.onclick=function(){document.getElementById('fsd').textContent=info[i]}});
+
+/* stride */
+var st=document.getElementById('stride');
+st.oninput=function(){var v=+st.value;document.getElementById('sv').textContent=v;document.getElementById('ov').textContent=Math.max(0,200-v);document.getElementById('w2').style.left=(v/200*40)+'%'};
+
+/* copy */
+document.getElementById('cp').onclick=function(){var b=this,t=document.getElementById('p1').innerText;try{navigator.clipboard.writeText(t).then(function(){b.textContent='✅ Copied';setTimeout(function(){b.textContent='📋 Copy Prompt'},1600)},function(){})}catch(e){}};
+
+/* quiz */
+var res=document.getElementById('qres');
+document.querySelectorAll('#opts button').forEach(function(b){b.onclick=function(){
+if(b.dataset.ok==='1'){document.querySelectorAll('#opts button').forEach(function(x){x.disabled=true});b.className+=' bg-emerald-600 text-white border-emerald-400';res.className='mt-3 text-sm font-bold text-emerald-300 min-h-[1.5rem]';res.textContent='🎉 Correct! Causal masking hides future positions so each token is predicted from the left context only.';
+var r=b.getBoundingClientRect(),em=['🎉','✨','🚀','⭐','💜'];for(var i=0;i<18;i++){var s=document.createElement('span');s.className='conf';s.textContent=em[i%5];s.style.left=(r.left+r.width/2)+'px';s.style.top=(r.top+r.height/2)+'px';s.style.setProperty('--x',(Math.random()*320-160)+'px');s.style.setProperty('--y',(Math.random()*-260-40)+'px');document.body.appendChild(s);setTimeout(function(n){n.remove()},1500,s)}}
+else{b.disabled=true;b.className+=' opacity-50 line-through';res.className='mt-3 text-sm font-bold text-rose-300 min-h-[1.5rem]';res.textContent='❌ Not quite! Try again.'}}});
+
+/* generic tabs */
+document.querySelectorAll('.tabs').forEach(function(g){var bs=[].slice.call(g.querySelectorAll(':scope>.tbs>.tb')),ps=[].slice.call(g.querySelectorAll(':scope>.tp')),c=0;
+function sel(i){c=i;bs.forEach(function(b,j){b.classList.toggle('on',j===i)});ps.forEach(function(q,j){q.classList.toggle('on',j===i)})}
+bs.forEach(function(b,i){b.onclick=function(){sel(i)}});
+g.querySelectorAll(':scope>.tp>.tn').forEach(function(n){n.onclick=function(){sel(Math.min(bs.length-1,c+1))}})});
+/* builders */
+document.querySelectorAll('.builder').forEach(function(bd){var cs=[].slice.call(bd.querySelectorAll('input')),out=bd.querySelector('.out'),mt=bd.querySelector('.meter'),ms=bd.querySelector('.msg'),base=bd.dataset.base;
+function up(){var l=[],n=0;cs.forEach(function(c){if(c.checked){n++;l.push(c.dataset.l.replace(/\\n/g,'\n'))}});out.textContent=[base].concat(l).join('\n\n');mt.style.width=(n/cs.length*100)+'%';ms.textContent=n===0?'Vague: nothing here is testable yet.':n<cs.length?'Better: '+n+' of '+cs.length+' ingredients added.':'🎉 Operational: clear, complete, and testable.'}
+cs.forEach(function(c){c.onchange=up});up()});
+/* preference game */
+document.querySelectorAll('.pg .opt').forEach(function(o){o.onclick=function(){document.querySelectorAll('.pg .opt').forEach(function(x){x.classList.remove('on')});o.classList.add('on');document.querySelector('.pgr').textContent=o.dataset.r}});
+/* reward hacking */
+var rh=document.getElementById('rh');function rhf(){var x=+rh.value,r=100*(1-Math.exp(-x/25)),q=100*(x/40)*Math.exp(1-x/40);q=Math.min(100,q);document.getElementById('rhv').textContent=x;document.getElementById('rhr').style.width=r+'%';document.getElementById('rhq').style.width=q+'%';document.getElementById('rhm').textContent=x<30?'Both rise together: the reward is a decent proxy.':x<55?'Sweet spot: reward is high and quality is near its peak.':'Reward hacking: the score keeps climbing while real quality falls.'}
+rh.oninput=rhf;rhf();
+/* context budget */
+var sn=[["Device-specific fan-noise guide",300,9],["Windows 10 post-update known issues",400,8],["Task Manager how-to",200,7],["Disk cleanup steps",250,6],["Generic speed-tips blog",500,3],["Older duplicate of the fan-noise guide",300,2],["Warranty terms",350,1]],cb=document.getElementById('cb');
+function cbf(){var B=+cb.value,u=0,inc=[];sn.slice().sort(function(a,b){return b[2]-a[2]}).forEach(function(s){if(u+s[1]<=B){u+=s[1];inc.push(s[0])}});
+document.getElementById('cbv').textContent=B;document.getElementById('cbl').innerHTML='';
+sn.forEach(function(s){var d=document.createElement('div'),y=inc.indexOf(s[0])>-1;d.className='cx '+(y?'in':'out');d.innerHTML='<span></span><span class="font-mono text-xs text-slate-400"></span>';d.firstChild.textContent=(y?'✅ ':'✖ ')+s[0];d.lastChild.textContent=s[1]+' tok · score '+s[2];document.getElementById('cbl').appendChild(d)});
+document.getElementById('cbm').textContent='Used '+u+' of '+B+' tokens. Low-value and duplicate excerpts are dropped first.'}
+cb.oninput=cbf;cbf();
+/* checklist */
+var ck=[].slice.call(document.querySelectorAll('.chk'));ck.forEach(function(c){c.onchange=function(){var n=ck.filter(function(x){return x.checked}).length;document.getElementById('chkb').style.width=(n/ck.length*100)+'%';document.getElementById('chkm').textContent=n+' / '+ck.length+' checked'+(n===ck.length?' 🚀 Ready to ship!':'')}});
+})();
+</script>
 </body>
 </html>
